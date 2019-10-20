@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-//use Symfony\Component\Routing\Annotation\Route;
-use Illuminate\Support\Facades\Route; 
-
 
 /*
 |--------------------------------------------------------------------------
@@ -16,27 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-    
-// });
-
-//Login
-Route::post('login', 'API\UserController@login');
-Route::get('logout', 'API\UserController@logout');
-
-Route::group(['middleware' => ['web']], function () {
-    //login google api
-    Route::get('/redirect/{social}', 'API\SocialAuthController@redirect');
-    Route::get('/callback/{social}', 'API\SocialAuthController@callback');
+Route::group([
+    'prefix' => 'user'
+], function () {
+    Route::post('login', 'UserController@login');
+    Route::post('signup', 'UserController@signup');
+  
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
+        Route::get('logout', 'UserController@logout');
+        Route::get('user', 'UserController@user');
+    });
 });
-
-//User
-Route::get('user', 'API\UserController@getUser');
-
-
-
-
-
-
-
-

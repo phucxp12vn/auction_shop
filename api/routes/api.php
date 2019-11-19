@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-//use Symfony\Component\Routing\Annotation\Route;
-use Illuminate\Support\Facades\Route; 
-
 
 /*
 |--------------------------------------------------------------------------
@@ -16,27 +13,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-    
-// });
+Route::group([
+    'prefix' => 'user'
+], function () {
+    Route::post('login', 'UserController@login');
+    Route::post('signup', 'UserController@signup');
+  
+    Route::group([
+      'middleware' => 'auth:api'
+    ], function() {
 
-//Login
-Route::post('login', 'API\UserController@login');
-Route::get('logout', 'API\UserController@logout');
+        // User
+        Route::get('logout', 'UserController@logout');
+        Route::get('user', 'UserController@user');
 
-Route::group(['middleware' => ['web']], function () {
-    //login google api
-    Route::get('/redirect/{social}', 'API\SocialAuthController@redirect');
-    Route::get('/callback/{social}', 'API\SocialAuthController@callback');
+        // Product
+        Route::get('getallproduct', 'ProductController@getAllProduct');
+        Route::get('getproduct/{id}', 'ProductController@getProduct');
+        Route::post('createproduct', 'ProductController@CreateProduct');
+        Route::get('updateproduct/{id}', 'ProductController@updateProduct');
+        Route::get('deleteproduct/{id}', 'ProductController@deleteProduct');
+        
+    });
 });
-
-//User
-Route::get('user', 'API\UserController@getUser');
-
-
-
-
-
-
-
-

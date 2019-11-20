@@ -15,13 +15,14 @@ class auction_users extends Seeder
  
 			//'user_id' => 'admin',
 			 
-			'priority' => 2,			 
-			'user_name' => 'sang',
-			'user_password' => md5('a3'),
+			//'priority' => 2,			 
+			'user_name' => 'Sang',
+            'user_password' => md5('a3'),
+            'user_fullName' => 'Phan Tan Sang',
 			'user_email' => 'sang@gmail.com',
 			'user_address' => '139/8a trần hưng đạo',
 			'user_phoneNumber' => '01232755345',
-			'user_gender' => 'Name'			 
+			//'user_gender' => 'Nam'			 
 		]);
     }
 }

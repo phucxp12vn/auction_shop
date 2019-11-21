@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   shiftContent: {
-    paddingLeft: 0
+    paddingLeft: 240
   },
   content: {
     height: '100%'
@@ -48,16 +48,17 @@ const Main = props => {
       className={clsx({
         [classes.root]: true,
         [classes.shiftContent]: isDesktop
-      })}>
+      })}
+    >
       <Topbar onSidebarOpen={handleSidebarOpen} />
-      {/* <Sidebar
+      <Sidebar
         onClose={handleSidebarClose}
         open={shouldOpenSidebar}
         variant={isDesktop ? 'persistent' : 'temporary'}
-      /> */}
+      />
       <main className={classes.content}>
         {children}
-        {/* <Footer /> */}
+        <Footer />
       </main>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios'
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(/images/auction-hammer.jpg)',
+    backgroundImage: 'url(/images/auth.jpg)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
@@ -171,22 +171,21 @@ const SignIn = props => {
 
   const handleSignIn = event => {
     event.preventDefault();
-
-    var data = {
-      email: formState.values.email,
-      password: formState.values.password
-    };
-    axios
-      .post('http://127.0.0.1:8000/api/user/login', data)
-      .then(response => {
-        // redirect to the homepage
-        history.push('/');
-      })
-      .catch(error => {
-        this.setState({
-          errors: error.response.data.errors
-        });
-      });
+    
+        var data = {
+          'email': formState.values.email,
+          'password': formState.values.password
+        }
+        axios.post('http://127.0.0.1:8000/api/user/login', data)
+          .then(response => {
+            // redirect to the homepage
+            history.push('/')
+          })
+          .catch(error => {
+            this.setState({
+              errors: error.response.data.errors
+            })
+          })
   };
 
   const hasError = field =>
@@ -194,13 +193,27 @@ const SignIn = props => {
 
   return (
     <div className={classes.root}>
-      <Grid className={classes.grid} container>
-        <Grid className={classes.quoteContainer} item lg={5}>
+      <Grid
+        className={classes.grid}
+        container
+      >
+        <Grid
+          className={classes.quoteContainer}
+          item
+          lg={5}
+        >
           <div className={classes.quote}>
-            <div className={classes.quoteInner} />
+            <div className={classes.quoteInner}>
+              
+            </div>
           </div>
         </Grid>
-        <Grid className={classes.content} item lg={7} xs={12}>
+        <Grid
+          className={classes.content}
+          item
+          lg={7}
+          xs={12}
+        >
           <div className={classes.content}>
             <div className={classes.contentHeader}>
               <IconButton onClick={handleBack}>
@@ -208,9 +221,15 @@ const SignIn = props => {
               </IconButton>
             </div>
             <div className={classes.contentBody}>
-              <form className={classes.form} onSubmit={handleSignIn}>
-                <Typography className={classes.title} variant="h2">
-                  Đăng nhập
+              <form
+                className={classes.form}
+                onSubmit={handleSignIn}
+              >
+                <Typography
+                  className={classes.title}
+                  variant="h2"
+                >
+                  Sign in
                 </Typography>
                 <TextField
                   className={classes.textField}
@@ -219,7 +238,7 @@ const SignIn = props => {
                   helperText={
                     hasError('email') ? formState.errors.email[0] : null
                   }
-                  label="Địa chỉ Email"
+                  label="Email address"
                   name="email"
                   onChange={handleChange}
                   type="text"
@@ -233,29 +252,35 @@ const SignIn = props => {
                   helperText={
                     hasError('password') ? formState.errors.password[0] : null
                   }
-                  label="Mật khẩu"
+                  label="Password"
                   name="password"
                   onChange={handleChange}
                   type="password"
                   value={formState.values.password || ''}
                   variant="outlined"
                 />
-                <Link component={RouterLink} to="/products" variant="h6">
-                  <Button
-                    className={classes.signInButton}
-                    color="primary"
-                    disabled={!formState.isValid}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained">
-                    Đăng nhập ngay
-                  </Button>
-                </Link>
-                <Typography color="textSecondary" variant="body1">
-                  Bạn chưa có tài khoản ?{' '}
-                  <Link component={RouterLink} to="/sign-up" variant="h6">
-                    Đăng ký
+                <Button
+                  className={classes.signInButton}
+                  color="primary"
+                  disabled={!formState.isValid}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained"
+                >
+                  Sign in now
+                </Button>
+                <Typography
+                  color="textSecondary"
+                  variant="body1"
+                >
+                  Don't have an account?{' '}
+                  <Link
+                    component={RouterLink}
+                    to="/sign-up"
+                    variant="h6"
+                  >
+                    Sign up
                   </Link>
                 </Typography>
               </form>

@@ -8,11 +8,9 @@ import {
   CardActions,
   Typography,
   Grid,
-  Button,
   Divider
 } from '@material-ui/core';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import GavelIcon from '@material-ui/icons/Gavel';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
 const useStyles = makeStyles(theme => ({
@@ -38,11 +36,6 @@ const useStyles = makeStyles(theme => ({
   statsIcon: {
     color: theme.palette.icon,
     marginRight: theme.spacing(1)
-  },
-  listButton: {
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    marginBottom: '2%'
   }
 }));
 
@@ -60,10 +53,7 @@ const ProductCard = props => {
         <Typography align="center" gutterBottom variant="h4">
           {product.name}
         </Typography>
-        <Typography
-          align="center"
-          variant="body1"
-          style={{ fontWeight: 'bold', fontSize: '35px' }}>
+        <Typography align="center" variant="body1">
           {product.price}
           {/* {product.description} */}
         </Typography>
@@ -78,27 +68,13 @@ const ProductCard = props => {
             </Typography>
           </Grid>
           <Grid className={classes.statsItem} item>
-            <GavelIcon className={classes.statsIcon} />
+            <GetAppIcon className={classes.statsIcon} />
             <Typography display="inline" variant="body2">
               {product.totalBids} lần đấu giá
             </Typography>
           </Grid>
         </Grid>
       </CardActions>
-      <div className={classes.listButton}>
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.button}>
-          Chi tiết
-        </Button>
-        <Button
-          variant="contained"
-          className={classes.button}
-          style={{ backgroundColor: '#4fc34f' }}>
-          Tham gia
-        </Button>
-      </div>
     </Card>
   );
 };

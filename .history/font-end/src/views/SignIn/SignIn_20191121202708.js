@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(/images/auction-hammer.jpg)',
+    backgroundImage: 'url(/images/auth.jpg)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
@@ -240,22 +240,20 @@ const SignIn = props => {
                   value={formState.values.password || ''}
                   variant="outlined"
                 />
-                <Link component={RouterLink} to="/products" variant="h6">
-                  <Button
-                    className={classes.signInButton}
-                    color="primary"
-                    disabled={!formState.isValid}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained">
-                    Đăng nhập ngay
-                  </Button>
-                </Link>
+                <Button
+                  className={classes.signInButton}
+                  color="primary"
+                  disabled={!formState.isValid}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained">
+                  Sign in now
+                </Button>
                 <Typography color="textSecondary" variant="body1">
-                  Bạn chưa có tài khoản ?{' '}
+                  Don't have an account?{' '}
                   <Link component={RouterLink} to="/sign-up" variant="h6">
-                    Đăng ký
+                    Sign up
                   </Link>
                 </Typography>
               </form>

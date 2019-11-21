@@ -66,7 +66,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(/images/auction-hammer.jpg)',
+    backgroundImage: 'url(/images/auth.jpg)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
@@ -195,25 +195,47 @@ const SignUp = props => {
 
   return (
     <div className={classes.root}>
-      <Grid className={classes.grid} container>
-        <Grid className={classes.quoteContainer} item lg={5}>
+      <Grid
+        className={classes.grid}
+        container
+      >
+        <Grid
+          className={classes.quoteContainer}
+          item
+          lg={5}
+        >
           <div className={classes.quote}>
             <div className={classes.quoteInner}>
-              <Typography className={classes.quoteText} variant="h1">
-                Đấu giá là môi trường cạnh tranh lành mạnh và tốt cho sức khỏe.
+              <Typography
+                className={classes.quoteText}
+                variant="h1"
+              >
+                Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
+                they sold out High Life.
               </Typography>
               <div className={classes.person}>
-                <Typography className={classes.name} variant="body1">
-                  Chúc bạn có những cuộc đầu tư đắt giá
+                <Typography
+                  className={classes.name}
+                  variant="body1"
+                >
+                  Takamaru Ayako
                 </Typography>
-                <Typography className={classes.bio} variant="body2">
-                  Về cả giá trị tinh thần và vật chất.
+                <Typography
+                  className={classes.bio}
+                  variant="body2"
+                >
+                  Manager at inVision
                 </Typography>
               </div>
             </div>
           </div>
         </Grid>
-        <Grid className={classes.content} item lg={7} xs={12}>
+        <Grid
+          className={classes.content}
+          item
+          lg={7}
+          xs={12}
+        >
           <div className={classes.content}>
             <div className={classes.contentHeader}>
               <IconButton onClick={handleBack}>
@@ -221,12 +243,21 @@ const SignUp = props => {
               </IconButton>
             </div>
             <div className={classes.contentBody}>
-              <form className={classes.form} onSubmit={handleSignUp}>
-                <Typography className={classes.title} variant="h2">
-                  Tài khoản mới
+              <form
+                className={classes.form}
+                onSubmit={handleSignUp}
+              >
+                <Typography
+                  className={classes.title}
+                  variant="h2"
+                >
+                  Create new account
                 </Typography>
-                <Typography color="textSecondary" gutterBottom>
-                  Dùng Email của bạn để tạo tài khoản
+                <Typography
+                  color="textSecondary"
+                  gutterBottom
+                >
+                  Use your email to create new account
                 </Typography>
                 <TextField
                   className={classes.textField}
@@ -235,7 +266,7 @@ const SignUp = props => {
                   helperText={
                     hasError('firstName') ? formState.errors.firstName[0] : null
                   }
-                  label="Họ"
+                  label="First name"
                   name="firstName"
                   onChange={handleChange}
                   type="text"
@@ -249,7 +280,7 @@ const SignUp = props => {
                   helperText={
                     hasError('lastName') ? formState.errors.lastName[0] : null
                   }
-                  label="Tên"
+                  label="Last name"
                   name="lastName"
                   onChange={handleChange}
                   type="text"
@@ -263,7 +294,7 @@ const SignUp = props => {
                   helperText={
                     hasError('email') ? formState.errors.email[0] : null
                   }
-                  label="Địa chỉ Email"
+                  label="Email address"
                   name="email"
                   onChange={handleChange}
                   type="text"
@@ -277,7 +308,7 @@ const SignUp = props => {
                   helperText={
                     hasError('password') ? formState.errors.password[0] : null
                   }
-                  label="Mật khẩu"
+                  label="Password"
                   name="password"
                   onChange={handleChange}
                   type="password"
@@ -295,15 +326,17 @@ const SignUp = props => {
                   <Typography
                     className={classes.policyText}
                     color="textSecondary"
-                    variant="body1">
-                    Tôi đã đọc và đồng ý với{' '}
+                    variant="body1"
+                  >
+                    I have read the{' '}
                     <Link
                       color="primary"
                       component={RouterLink}
                       to="#"
                       underline="always"
-                      variant="h6">
-                      Điều kiện và điều khoản
+                      variant="h6"
+                    >
+                      Terms and Conditions
                     </Link>
                   </Typography>
                 </div>
@@ -319,13 +352,21 @@ const SignUp = props => {
                   fullWidth
                   size="large"
                   type="submit"
-                  variant="contained">
-                  Đăng ký ngay
+                  variant="contained"
+                >
+                  Sign up now
                 </Button>
-                <Typography color="textSecondary" variant="body1">
-                  Bạn đã có tài khoản ?{' '}
-                  <Link component={RouterLink} to="/sign-in" variant="h6">
-                    Đăng nhập
+                <Typography
+                  color="textSecondary"
+                  variant="body1"
+                >
+                  Have an account?{' '}
+                  <Link
+                    component={RouterLink}
+                    to="/sign-in"
+                    variant="h6"
+                  >
+                    Sign in
                   </Link>
                 </Typography>
               </form>

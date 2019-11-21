@@ -8,11 +8,10 @@ import {
   CardActions,
   Typography,
   Grid,
-  Button,
   Divider
 } from '@material-ui/core';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
-import GavelIcon from '@material-ui/icons/Gavel';
+import GavelIcon from '@material-ui/icons/GavelIcon';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
 const useStyles = makeStyles(theme => ({
@@ -38,11 +37,6 @@ const useStyles = makeStyles(theme => ({
   statsIcon: {
     color: theme.palette.icon,
     marginRight: theme.spacing(1)
-  },
-  listButton: {
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    marginBottom: '2%'
   }
 }));
 
@@ -85,20 +79,6 @@ const ProductCard = props => {
           </Grid>
         </Grid>
       </CardActions>
-      <div className={classes.listButton}>
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.button}>
-          Chi tiết
-        </Button>
-        <Button
-          variant="contained"
-          className={classes.button}
-          style={{ backgroundColor: '#4fc34f' }}>
-          Tham gia
-        </Button>
-      </div>
     </Card>
   );
 };

@@ -41,8 +41,7 @@ const useStyles = makeStyles(theme => ({
   },
   listButton: {
     display: 'flex',
-    justifyContent: 'space-evenly',
-    marginBottom: '2%'
+    justifyContent: 'space-evenly'
   }
 }));
 

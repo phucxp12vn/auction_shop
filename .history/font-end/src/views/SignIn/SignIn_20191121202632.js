@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(/images/auction-hammer.jpg)',
+    backgroundImage: 'url(/images/auth.jpg)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
@@ -210,7 +210,7 @@ const SignIn = props => {
             <div className={classes.contentBody}>
               <form className={classes.form} onSubmit={handleSignIn}>
                 <Typography className={classes.title} variant="h2">
-                  Đăng nhập
+                  Sign in
                 </Typography>
                 <TextField
                   className={classes.textField}
@@ -219,7 +219,7 @@ const SignIn = props => {
                   helperText={
                     hasError('email') ? formState.errors.email[0] : null
                   }
-                  label="Địa chỉ Email"
+                  label="Email address"
                   name="email"
                   onChange={handleChange}
                   type="text"
@@ -233,29 +233,27 @@ const SignIn = props => {
                   helperText={
                     hasError('password') ? formState.errors.password[0] : null
                   }
-                  label="Mật khẩu"
+                  label="Password"
                   name="password"
                   onChange={handleChange}
                   type="password"
                   value={formState.values.password || ''}
                   variant="outlined"
                 />
-                <Link component={RouterLink} to="/products" variant="h6">
-                  <Button
-                    className={classes.signInButton}
-                    color="primary"
-                    disabled={!formState.isValid}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained">
-                    Đăng nhập ngay
-                  </Button>
-                </Link>
+                <Button
+                  className={classes.signInButton}
+                  color="primary"
+                  disabled={!formState.isValid}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained">
+                  Sign in now
+                </Button>
                 <Typography color="textSecondary" variant="body1">
-                  Bạn chưa có tài khoản ?{' '}
+                  Don't have an account?{' '}
                   <Link component={RouterLink} to="/sign-up" variant="h6">
-                    Đăng ký
+                    Sign up
                   </Link>
                 </Typography>
               </form>

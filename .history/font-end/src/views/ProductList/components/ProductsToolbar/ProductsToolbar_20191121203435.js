@@ -46,7 +46,7 @@ const ProductsToolbar = props => {
       <div className={classes.row}>
         <SearchInput
           className={classes.searchInput}
-          placeholder="Tìm sản phẩm"
+          placeholder="Search product"
         />
       </div>
     </div>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
@@ -10,11 +9,25 @@ import {
   IconButton,
   TextField,
   Link,
+  FormHelperText,
+  Checkbox,
   Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const schema = {
+  firstName: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 32
+    }
+  },
+  lastName: {
+    presence: { allowEmpty: false, message: 'is required' },
+    length: {
+      maximum: 32
+    }
+  },
   email: {
     presence: { allowEmpty: false, message: 'is required' },
     email: true,
@@ -27,6 +40,10 @@ const schema = {
     length: {
       maximum: 128
     }
+  },
+  policy: {
+    presence: { allowEmpty: false, message: 'is required' },
+    checked: true
   }
 };
 
@@ -49,7 +66,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(/images/auction-hammer.jpg)',
+    backgroundImage: 'url(/images/auth.jpg)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
@@ -107,24 +124,23 @@ const useStyles = makeStyles(theme => ({
   title: {
     marginTop: theme.spacing(3)
   },
-  socialButtons: {
-    marginTop: theme.spacing(3)
-  },
-  socialIcon: {
-    marginRight: theme.spacing(1)
-  },
-  sugestion: {
-    marginTop: theme.spacing(2)
-  },
   textField: {
     marginTop: theme.spacing(2)
   },
-  signInButton: {
+  policy: {
+    marginTop: theme.spacing(1),
+    display: 'flex',
+    alignItems: 'center'
+  },
+  policyCheckbox: {
+    marginLeft: '-14px'
+  },
+  signUpButton: {
     margin: theme.spacing(2, 0)
   }
 }));
 
-const SignIn = props => {
+const SignUp = props => {
   const { history } = props;
 
   const classes = useStyles();
@@ -146,10 +162,6 @@ const SignIn = props => {
     }));
   }, [formState.values]);
 
-  const handleBack = () => {
-    history.goBack();
-  };
-
   const handleChange = event => {
     event.persist();
 
@@ -169,24 +181,13 @@ const SignIn = props => {
     }));
   };
 
-  const handleSignIn = event => {
-    event.preventDefault();
+  const handleBack = () => {
+    history.goBack();
+  };
 
-    var data = {
-      email: formState.values.email,
-      password: formState.values.password
-    };
-    axios
-      .post('http://127.0.0.1:8000/api/user/login', data)
-      .then(response => {
-        // redirect to the homepage
-        history.push('/');
-      })
-      .catch(error => {
-        this.setState({
-          errors: error.response.data.errors
-        });
-      });
+  const handleSignUp = event => {
+    event.preventDefault();
+    history.push('/');
   };
 
   const hasError = field =>
@@ -197,7 +198,20 @@ const SignIn = props => {
       <Grid className={classes.grid} container>
         <Grid className={classes.quoteContainer} item lg={5}>
           <div className={classes.quote}>
-            <div className={classes.quoteInner} />
+            <div className={classes.quoteInner}>
+              <Typography className={classes.quoteText} variant="h1">
+                Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
+                they sold out High Life.
+              </Typography>
+              <div className={classes.person}>
+                <Typography className={classes.name} variant="body1">
+                  Takamaru Ayako
+                </Typography>
+                <Typography className={classes.bio} variant="body2">
+                  Manager at inVision
+                </Typography>
+              </div>
+            </div>
           </div>
         </Grid>
         <Grid className={classes.content} item lg={7} xs={12}>
@@ -208,10 +222,41 @@ const SignIn = props => {
               </IconButton>
             </div>
             <div className={classes.contentBody}>
-              <form className={classes.form} onSubmit={handleSignIn}>
+              <form className={classes.form} onSubmit={handleSignUp}>
                 <Typography className={classes.title} variant="h2">
-                  Đăng nhập
+                  Tài khoản mới
                 </Typography>
+                <Typography color="textSecondary" gutterBottom>
+                  Dùng Email của bạn để tạo tài khoản
+                </Typography>
+                <TextField
+                  className={classes.textField}
+                  error={hasError('firstName')}
+                  fullWidth
+                  helperText={
+                    hasError('firstName') ? formState.errors.firstName[0] : null
+                  }
+                  label="Họ"
+                  name="firstName"
+                  onChange={handleChange}
+                  type="text"
+                  value={formState.values.firstName || ''}
+                  variant="outlined"
+                />
+                <TextField
+                  className={classes.textField}
+                  error={hasError('lastName')}
+                  fullWidth
+                  helperText={
+                    hasError('lastName') ? formState.errors.lastName[0] : null
+                  }
+                  label="Tên"
+                  name="lastName"
+                  onChange={handleChange}
+                  type="text"
+                  value={formState.values.lastName || ''}
+                  variant="outlined"
+                />
                 <TextField
                   className={classes.textField}
                   error={hasError('email')}
@@ -240,22 +285,48 @@ const SignIn = props => {
                   value={formState.values.password || ''}
                   variant="outlined"
                 />
-                <Link component={RouterLink} to="/products" variant="h6">
-                  <Button
-                    className={classes.signInButton}
+                <div className={classes.policy}>
+                  <Checkbox
+                    checked={formState.values.policy || false}
+                    className={classes.policyCheckbox}
                     color="primary"
-                    disabled={!formState.isValid}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained">
-                    Đăng nhập ngay
-                  </Button>
-                </Link>
+                    name="policy"
+                    onChange={handleChange}
+                  />
+                  <Typography
+                    className={classes.policyText}
+                    color="textSecondary"
+                    variant="body1">
+                    I have read the{' '}
+                    <Link
+                      color="primary"
+                      component={RouterLink}
+                      to="#"
+                      underline="always"
+                      variant="h6">
+                      Terms and Conditions
+                    </Link>
+                  </Typography>
+                </div>
+                {hasError('policy') && (
+                  <FormHelperText error>
+                    {formState.errors.policy[0]}
+                  </FormHelperText>
+                )}
+                <Button
+                  className={classes.signUpButton}
+                  color="primary"
+                  disabled={!formState.isValid}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained">
+                  Sign up now
+                </Button>
                 <Typography color="textSecondary" variant="body1">
-                  Bạn chưa có tài khoản ?{' '}
-                  <Link component={RouterLink} to="/sign-up" variant="h6">
-                    Đăng ký
+                  Have an account?{' '}
+                  <Link component={RouterLink} to="/sign-in" variant="h6">
+                    Sign in
                   </Link>
                 </Typography>
               </form>
@@ -267,8 +338,8 @@ const SignIn = props => {
   );
 };
 
-SignIn.propTypes = {
+SignUp.propTypes = {
   history: PropTypes.object
 };
 
-export default withRouter(SignIn);
+export default withRouter(SignUp);

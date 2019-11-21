@@ -17,8 +17,8 @@ const useStyles = makeStyles(theme => ({
   pagination: {
     marginTop: theme.spacing(3),
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end'
+    alignItems: 'center'
+    // justifyContent: 'flex-end'
   }
 }));
 

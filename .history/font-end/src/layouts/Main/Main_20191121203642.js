@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   shiftContent: {
-    paddingLeft: 0
+    paddingLeft: 240
   },
   content: {
     height: '100%'

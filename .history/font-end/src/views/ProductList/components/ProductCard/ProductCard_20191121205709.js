@@ -38,11 +38,6 @@ const useStyles = makeStyles(theme => ({
   statsIcon: {
     color: theme.palette.icon,
     marginRight: theme.spacing(1)
-  },
-  listButton: {
-    display: 'flex',
-    justifyContent: 'space-evenly',
-    marginBottom: '2%'
   }
 }));
 
@@ -85,20 +80,6 @@ const ProductCard = props => {
           </Grid>
         </Grid>
       </CardActions>
-      <div className={classes.listButton}>
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.button}>
-          Chi tiết
-        </Button>
-        <Button
-          variant="contained"
-          className={classes.button}
-          style={{ backgroundColor: '#4fc34f' }}>
-          Tham gia
-        </Button>
-      </div>
     </Card>
   );
 };

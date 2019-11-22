@@ -46,8 +46,7 @@ const RoomDetails = props => {
 
   const user = {
     roomName: '',
-    description: '',
-    startTime: null
+    description: ''
   };
 
   return (
@@ -81,31 +80,6 @@ const RoomDetails = props => {
               // onChange={handleChange}
               // required
               // value={values.firstName}
-              variant="outlined"
-            />
-            <TextField
-              fullWidth
-              id="datetime-local"
-              label="Bắt đầu"
-              type="datetime-local"
-              defaultValue="2017-05-24T10:30"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true
-              }}
-              style={{ marginBottom: '20px' }}
-              variant="outlined"
-            />
-            <TextField
-              fullWidth
-              id="datetime-local"
-              label="Kết thúc"
-              type="datetime-local"
-              defaultValue="2017-05-24T10:30"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true
-              }}
               variant="outlined"
             />
             {/* <Typography

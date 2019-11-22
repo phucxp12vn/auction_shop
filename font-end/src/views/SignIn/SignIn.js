@@ -10,6 +10,11 @@ import {
   IconButton,
   TextField,
   Link,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -138,7 +143,7 @@ const SignIn = props => {
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
-
+    console.log(errors);
     setFormState(formState => ({
       ...formState,
       isValid: errors ? false : true,
@@ -176,17 +181,24 @@ const SignIn = props => {
       email: formState.values.email,
       password: formState.values.password
     };
-    axios
-      .post('http://127.0.0.1:8000/api/user/login', data)
-      .then(response => {
-        // redirect to the homepage
-        history.push('/');
-      })
-      .catch(error => {
-        this.setState({
-          errors: error.response.data.errors
-        });
-      });
+    // axios
+    //   .post('http://127.0.0.1:3000/api/user/login', data)
+    //   .then(response => {
+    //     // redirect to the homepage
+    //     history.push('/');
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //     setFormState(formState => ({
+    //       ...formState,
+    //       errors: error
+    //     }));
+    //   });
+    // API.login()
+    //   .then(function(data) {
+
+    //   })
+    //   .catch();
   };
 
   const hasError = field =>
@@ -240,18 +252,18 @@ const SignIn = props => {
                   value={formState.values.password || ''}
                   variant="outlined"
                 />
-                <Link component={RouterLink} to="/products" variant="h6">
-                  <Button
-                    className={classes.signInButton}
-                    color="primary"
-                    disabled={!formState.isValid}
-                    fullWidth
-                    size="large"
-                    type="submit"
-                    variant="contained">
-                    Đăng nhập ngay
-                  </Button>
-                </Link>
+                {/* <Link component={RouterLink} to="/products" variant="h6"> */}
+                <Button
+                  className={classes.signInButton}
+                  color="primary"
+                  disabled={!formState.isValid}
+                  fullWidth
+                  size="large"
+                  type="submit"
+                  variant="contained">
+                  Đăng nhập
+                </Button>
+                {/* </Link> */}
                 <Typography color="textSecondary" variant="body1">
                   Bạn chưa có tài khoản ?{' '}
                   <Link component={RouterLink} to="/sign-up" variant="h6">
@@ -263,6 +275,28 @@ const SignIn = props => {
           </div>
         </Grid>
       </Grid>
+      <Dialog
+        // open={open}
+        // onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description">
+        <DialogTitle id="alert-dialog-title">
+          {"Use Google's location service?"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {formState.errors}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          {/* <Button onClick={handleClose} color="primary">
+            Disagree
+          </Button>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            Agree
+          </Button> */}
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

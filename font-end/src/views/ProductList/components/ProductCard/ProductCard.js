@@ -95,7 +95,7 @@ const ProductCard = props => {
         <Button
           variant="contained"
           className={classes.button}
-          style={{ backgroundColor: '#4fc34f' }}>
+          style={{ backgroundColor: '#4fc34f',color : '#fff' }}>
           Tham gia
         </Button>
       </div>

@@ -18,6 +18,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Product = props => {
+  console.log(props);
   const { className, ...rest } = props;
 
   const classes = useStyles();
@@ -30,8 +31,7 @@ const Product = props => {
     },
     brand: '',
     price: '',
-    description: 'Alabama',
-    country: 'USA'
+    desc: ''
   });
 
   const handleChange = event => {
@@ -71,9 +71,43 @@ const Product = props => {
       <form autoComplete="off" noValidate>
         <CardHeader
           title="Sản phẩm"
-          titleTypographyProps={{ gutterBottom: 'true', variant: 'h2' }}
-        />
+          titleTypographyProps={{
+            gutterBottom: 'true',
+            variant: 'h2'
+          }}></CardHeader>
         <Divider />
+        <CardContent>
+          <Grid container spacing={3}>
+            <Grid item md={6} xs={12}>
+              <TextField
+                fullWidth
+                helperText="  "
+                label="Tên phòng"
+                margin="dense"
+                disabled
+                name="roomName"
+                // onChange={handleChange}
+                required
+                value={props.roomDetails.roomName}
+                variant="outlined"
+              />
+            </Grid>
+            <Grid item md={6} xs={12}>
+              <TextField
+                fullWidth
+                helperText="  "
+                label="Mô tả phòng"
+                margin="dense"
+                disabled
+                name="roomDesc"
+                // onChange={handleChange}
+                required
+                value={props.roomDetails.desc}
+                variant="outlined"
+              />
+            </Grid>
+          </Grid>
+        </CardContent>
         <CardContent>
           <Grid container spacing={3}>
             <Grid item md={6} xs={12}>
@@ -85,7 +119,7 @@ const Product = props => {
                 name="name"
                 onChange={handleChange}
                 required
-                // value={values.name}
+                // value={values.name}s
                 variant="outlined"
               />
             </Grid>
@@ -101,7 +135,6 @@ const Product = props => {
                 variant="outlined"
                 // inputProps={{ type: 'file' }}
               />
-              {/* --------------TEST--------------------------- */}
               <input
                 // accept="image/*"
                 className={classes.input}
@@ -125,7 +158,6 @@ const Product = props => {
                   Tải lên
                 </Button>
               </label>
-              {/* --------------TEST--------------------------- */}
             </Grid>
             <Grid item md={6} xs={12}>
               <TextField
@@ -152,26 +184,6 @@ const Product = props => {
                 inputProps={{ step: 10000 }}
               />
             </Grid>
-            {/* <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Select State"
-                margin="dense"
-                name="state"
-                onChange={handleChange}
-                required
-                select
-                // eslint-disable-next-line react/jsx-sort-props
-                SelectProps={{ native: true }}
-                value={values.state}
-                variant="outlined">
-                {states.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
-            </Grid> */}
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
@@ -180,8 +192,8 @@ const Product = props => {
                 name="description"
                 onChange={handleChange}
                 multiline
-                // required
-                // value={values.country}
+                required
+                value={values.desc}
                 variant="outlined"
               />
             </Grid>
@@ -196,7 +208,7 @@ const Product = props => {
               backgroundColor: '#17669c',
               color: '#fff'
             }}>
-            Lưu
+            Thêm
           </Button>
         </CardActions>
       </form>

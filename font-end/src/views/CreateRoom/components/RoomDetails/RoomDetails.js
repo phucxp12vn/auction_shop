@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import moment from 'moment';
@@ -16,7 +16,8 @@ import {
   TextField,
   TextareaAutosize,
   Link,
-  LinearProgress
+  LinearProgress,
+  Grid
 } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -44,10 +45,20 @@ const RoomDetails = props => {
 
   const classes = useStyles();
 
-  const user = {
+  const [values, setValues] = useState({
     roomName: '',
-    description: '',
-    startTime: null
+    desc: '',
+    startBid: '',
+    bidJump: 0,
+    startTime: '2017-05-24T10:30',
+    endTime: '2017-05-24T10:30'
+  });
+
+  const handleChange = event => {
+    setValues({
+      ...values,
+      [event.target.name]: event.target.value
+    });
   };
 
   return (
@@ -60,73 +71,98 @@ const RoomDetails = props => {
       <CardContent>
         <div className={classes.details}>
           <div>
-            <TextField
-              fullWidth
-              helperText="  "
-              label="Tên Phòng"
-              margin="dense"
-              name="roomName"
-              // onChange={handleChange}
-              required
-              // value={values.firstName}
-              variant="outlined"
-            />
-            <TextField
-              fullWidth
-              helperText="  "
-              label="Mô tả"
-              margin="dense"
-              name="desc"
-              multiline={true}
-              // onChange={handleChange}
-              // required
-              // value={values.firstName}
-              variant="outlined"
-            />
-            <TextField
-              fullWidth
-              id="datetime-local"
-              label="Bắt đầu"
-              type="datetime-local"
-              defaultValue="2017-05-24T10:30"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true
-              }}
-              style={{ marginBottom: '20px' }}
-              variant="outlined"
-            />
-            <TextField
-              fullWidth
-              id="datetime-local"
-              label="Kết thúc"
-              type="datetime-local"
-              defaultValue="2017-05-24T10:30"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true
-              }}
-              variant="outlined"
-            />
-            {/* <Typography
-              className={classes.locationText}
-              color="textSecondary"
-              variant="body1">
-              {user.city}, {user.country}
-            </Typography>
-            <Typography
-              className={classes.dateText}
-              color="textSecondary"
-              variant="body1">
-              {moment().format('hh:mm A')} ({user.timezone})
-            </Typography> */}
+            <Grid container spacing={3}>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  helperText="  "
+                  label="Tên Phòng"
+                  margin="dense"
+                  name="roomName"
+                  onChange={handleChange}
+                  required
+                  value={values.roomName}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  helperText="  "
+                  label="Mô tả"
+                  margin="dense"
+                  name="desc"
+                  multiline
+                  onChange={handleChange}
+                  value={values.desc}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  label="Giá khởi điểm"
+                  helperText="  "
+                  margin="dense"
+                  name="startBid"
+                  onChange={handleChange}
+                  type="number"
+                  value={values.startBid}
+                  variant="outlined"
+                  inputProps={{ step: 10000 }}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  label="Bước nhảy"
+                  helperText="  "
+                  margin="dense"
+                  name="bidJump"
+                  onChange={handleChange}
+                  type="number"
+                  value={values.bidJump}
+                  variant="outlined"
+                  inputProps={{ step: 10000 }}
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  helperText="  "
+                  id="datetime-local"
+                  label="Bắt đầu"
+                  name="startTime"
+                  type="datetime-local"
+                  value={values.startTime}
+                  onChange={handleChange}
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  style={{ marginBottom: '20px' }}
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item md={6} xs={12}>
+                <TextField
+                  fullWidth
+                  helperText="  "
+                  id="datetime-local"
+                  label="Kết thúc"
+                  name="endTime"
+                  type="datetime-local"
+                  value={values.endTime}
+                  className={classes.textField}
+                  InputLabelProps={{
+                    shrink: true
+                  }}
+                  variant="outlined"
+                />
+              </Grid>
+            </Grid>
           </div>
-          {/* <Avatar className={classes.avatar} src={user.avatar} /> */}
         </div>
-        {/* <div className={classes.progress}>
-          <Typography variant="body1">Profile Completeness: 70%</Typography>
-          <LinearProgress value={70} variant="determinate" />
-        </div> */}
       </CardContent>
       <Divider />
       <CardActions style={{ justifyContent: 'flex-end' }}>
@@ -134,10 +170,9 @@ const RoomDetails = props => {
           className={classes.uploadButton}
           color="secondary"
           variant="contained"
-          onClick={props.createRoom}>
+          onClick={() => props.onSaveRoomDetails(values)}>
           Tạo phòng
         </Button>
-        {/* <Button variant="text">Remove picture</Button> */}
       </CardActions>
     </Card>
   );

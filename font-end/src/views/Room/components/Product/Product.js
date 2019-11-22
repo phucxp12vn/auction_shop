@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
+import Table from '../Table';
 import {
   Card,
   CardHeader,
@@ -11,6 +12,7 @@ import {
   Divider,
   Grid,
   Button,
+  Typography,
   TextField
 } from '@material-ui/core';
 
@@ -21,18 +23,29 @@ const useStyles = makeStyles(() => ({
 const Product = props => {
   const { className, ...rest } = props;
 
+  const useStyles = makeStyles(theme => ({
+    root: {},
+    typo: {
+      marginBottom: theme.spacing(2)
+    },
+    gridTypo: {
+      textAlign: 'center'
+    }
+  }));
+
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    name: '',
+    name: 'Nón Vegeta',
     picture: {
       name: '',
       file: null
     },
-    brand: '',
-    price: '',
-    description: 'Alabama',
-    country: 'USA'
+    brand: 'Vegeta Brand',
+    currentBid: '100000',
+    currentWinner: 'Tam',
+    description: 'Very cooooool',
+    country: 'Namec'
   });
 
   const handleChange = event => {
@@ -75,126 +88,63 @@ const Product = props => {
           titleTypographyProps={{ gutterBottom: 'true', variant: 'h2' }}
         />
         <Divider />
-        <CardMedia
-          component="img"
-          style={{ width: '50%' }}
-          alt="Contemplative Reptile"
-          image="/images/auction-hammer.jpg"
-          title="Contemplative Reptile"
-        />
-        <Divider />
         <CardContent>
           <Grid container spacing={3}>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                helperText="  "
-                label="Tên sản phẩm"
-                margin="dense"
-                name="name"
-                onChange={handleChange}
-                required
-                // value={values.name}
-                variant="outlined"
+            <Grid item md={4} xs={12}>
+              <CardMedia
+                component="img"
+                // style={{ width: '50%' }}
+                alt="Contemplative Reptile"
+                image="/images/auction-hammer.jpg"
+                title="Contemplative Reptile"
               />
             </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Hình ảnh"
-                margin="dense"
-                name="image"
-                onChange={handleChange}
-                required
-                value={values.picture.name}
-                variant="outlined"
-                // inputProps={{ type: 'file' }}
-              />
-              {/* --------------TEST--------------------------- */}
-              <input
-                // accept="image/*"
-                className={classes.input}
-                style={{ display: 'none' }}
-                id="raised-button-file"
-                type="file"
-                name="picture"
-                onChange={onChangeHandler}
-              />
-              <label htmlFor="raised-button-file">
-                <Button
-                  variant="raised"
-                  component="span"
-                  className={classes.button}
-                  type="secondary"
-                  style={{
-                    float: 'right',
-                    backgroundColor: '#17669c',
-                    color: '#fff'
-                  }}>
-                  Tải lên
-                </Button>
-              </label>
-              {/* --------------TEST--------------------------- */}
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Hiệu"
-                margin="dense"
-                name="brand"
-                onChange={handleChange}
-                required
-                value={values.brand}
-                variant="outlined"
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Giá"
-                margin="dense"
-                name="price"
-                onChange={handleChange}
-                type="number"
-                value={values.price}
-                variant="outlined"
-                inputProps={{ step: 10000 }}
-              />
-            </Grid>
-            {/* <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Select State"
-                margin="dense"
-                name="state"
-                onChange={handleChange}
-                required
-                select
-                // eslint-disable-next-line react/jsx-sort-props
-                SelectProps={{ native: true }}
-                value={values.state}
-                variant="outlined">
-                {states.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
-            </Grid> */}
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Mô tả"
-                margin="dense"
-                name="description"
-                onChange={handleChange}
-                multiline
-                // required
-                // value={values.country}
-                variant="outlined"
-              />
+            <Grid item md={8} xs={12}>
+              <Typography style={{ marginBottom: '50px' }} variant="h1">
+                {values.name}
+              </Typography>
+              <Grid container spacing={3}>
+                <Grid item md={2} xs={4}>
+                  <Typography variant="h4">Nhãn hiệu</Typography>
+                </Grid>
+                <Grid item md={10} xs={12}>
+                  <Typography className={classes.typo} variant="h3">
+                    : {values.brand}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid container spacing={3}>
+                <Grid item md={2} xs={4}>
+                  <Typography variant="h4">Mô tả</Typography>
+                </Grid>
+                <Grid item md={10} xs={12}>
+                  <Typography className={classes.typo} variant="h3">
+                    : {values.description}
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={3}>
+                <Grid item md={4} xs={8} className={classes.gridTypo}>
+                  <Typography variant="h4">Giá đấu giá hiện tại</Typography>
+                  <Typography className={classes.typo} variant="h3">
+                    {values.currentBid} VND
+                  </Typography>
+                </Grid>
+                <Grid item md={4} xs={8} className={classes.gridTypo}>
+                  <Typography variant="h4">Người thắng hiện tại</Typography>
+                  <Typography className={classes.typo} variant="h3">
+                    {values.currentWinner}
+                  </Typography>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
+        </CardContent>
+
+        <Divider />
+        <CardContent>
+          <Table />
         </CardContent>
         <Divider />
         <CardActions style={{ justifyContent: 'flex-end' }}>

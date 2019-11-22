@@ -15,6 +15,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Slide,
   Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -129,6 +130,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const SignIn = props => {
   const { history } = props;
 
@@ -138,7 +142,8 @@ const SignIn = props => {
     isValid: false,
     values: {},
     touched: {},
-    errors: {}
+    errors: {},
+    loginFailedText: ''
   });
 
   useEffect(() => {
@@ -181,19 +186,25 @@ const SignIn = props => {
       email: formState.values.email,
       password: formState.values.password
     };
-    // axios
-    //   .post('http://127.0.0.1:3000/api/user/login', data)
-    //   .then(response => {
-    //     // redirect to the homepage
-    //     history.push('/');
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //     setFormState(formState => ({
-    //       ...formState,
-    //       errors: error
-    //     }));
-    //   });
+    axios
+      .post('http://127.0.0.1:3000/api/user/login', data)
+      .then(response => {
+        // redirect to the homepage
+        setFormState(formState => ({
+          ...formState,
+          errors: {},
+          loginFailedText: ''
+        }));
+        history.push('/');
+      })
+      .catch(error => {
+        console.log(error);
+        setFormState(formState => ({
+          ...formState,
+          errors: error,
+          loginFailedText: 'Đăng nhập thất bại'
+        }));
+      });
     // API.login()
     //   .then(function(data) {
 
@@ -253,6 +264,12 @@ const SignIn = props => {
                   variant="outlined"
                 />
                 {/* <Link component={RouterLink} to="/products" variant="h6"> */}
+                <Typography
+                  color="textSecondary"
+                  variant="body1"
+                  style={{ color: 'red', fontSize: '16px' }}>
+                  {formState.loginFailedText}
+                </Typography>
                 <Button
                   className={classes.signInButton}
                   color="primary"
@@ -275,28 +292,6 @@ const SignIn = props => {
           </div>
         </Grid>
       </Grid>
-      <Dialog
-        // open={open}
-        // onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {formState.errors}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          {/* <Button onClick={handleClose} color="primary">
-            Disagree
-          </Button>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Agree
-          </Button> */}
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };

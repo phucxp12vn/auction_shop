@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Product;
-use Validator;
 use Illuminate\Http\Request;
+use Validator;
 
 class ProductController extends Controller
 {
@@ -15,10 +15,10 @@ class ProductController extends Controller
      */
     public function getAllProduct()
     {
-        $products = Product::where('status','1')->paginate(5);
+        $products = Product::where('status', '1')->paginate(5);
 
         return response()->json([
-            'result' => $products->toArray()
+            'result' => $products->toArray(),
         ], 201);
     }
 
@@ -29,17 +29,16 @@ class ProductController extends Controller
      */
     public function getProduct($id)
     {
-        echo $id;
         $product = Product::find($id);
-        
+
         if (is_null($product)) {
             return response()->json([
-                'message' => 'Product not exist!'
+                'message' => 'Product not exist!',
             ], 201);
         }
 
         return response()->json([
-            'result' => $product->toArray()
+            'result' => $product->toArray(),
         ], 201);
     }
 
@@ -61,7 +60,7 @@ class ProductController extends Controller
         Product::create($request->all());
 
         return response()->json([
-            'message' => 'Successfully created product!'
+            'message' => 'Successfully created product!',
         ], 201);
     }
 
@@ -83,17 +82,17 @@ class ProductController extends Controller
             'status' => 'required',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'message' => 'Input value not valid'
-            ], 201);      
+                'message' => 'Input value not valid',
+            ], 201);
         }
 
         $product = Product::findOrFail($id);
         $product->update($input);
 
         return response()->json([
-            'message' => 'Successfully update product!'
+            'message' => 'Successfully update product!',
         ], 201);
     }
 
@@ -109,7 +108,7 @@ class ProductController extends Controller
         $product->delete();
 
         return response()->json([
-            'message' => 'Successfully delete product!'
+            'message' => 'Successfully delete product!',
         ], 201);
 
     }

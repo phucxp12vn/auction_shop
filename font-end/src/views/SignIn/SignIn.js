@@ -194,7 +194,7 @@ const SignIn = props => {
             } else {
               setFormState(formState => ({
                 ...formState,
-                errors: error,
+                errors: {},
                 loginFailedText: 'Đăng nhập thất bại'
               }));
             }

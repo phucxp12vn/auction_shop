@@ -33,6 +33,33 @@ Route::group([
         Route::post('createproduct', 'ProductController@CreateProduct');
         Route::get('updateproduct/{id}', 'ProductController@updateProduct');
         Route::get('deleteproduct/{id}', 'ProductController@deleteProduct');
-        
+    });
+});
+Route::group([
+    'prefix' => 'auction'
+], function () {
+    Route::post('createAuction', 'AuctionController@createAuction');
+    Route::get('updateAuction/{id}', 'AuctionController@updateAuction');
+    Route::get('getSingleAuction/{id}', 'AuctionController@getSingleAuction');
+    Route::get('getAllAuction', 'AuctionController@getAllAuction');
+    Route::get('deleteAuction/{id}', 'AuctionController@deleteAuction');
+    Route::group([
+    'middleware' => 'auth:api'
+    ], function() {
+         
+    });
+});
+Route::group([
+    'prefix' => 'product'
+], function () {
+    Route::post('createProduct', 'ProductController@createProduct');
+    Route::get('updateProduct/{id}', 'ProductController@updateProduct');
+    Route::get('getProduct/{id}', 'ProductController@getProduct');
+    Route::get('getAllProduct', 'ProductController@getAllProduct');
+    Route::get('deleteAuction/{id}', 'ProductController@deleteAuction');
+    Route::group([
+    'middleware' => 'auth:api'
+    ], function() {
+         
     });
 });

@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function getAllProduct()
     {
-        $products = Product::latest()->paginate(5);
+        $products = Product::where('status','1')->paginate(5);
 
         return response()->json([
             'result' => $products->toArray()
@@ -52,8 +52,10 @@ class ProductController extends Controller
     public function createProduct(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'detail' => 'required',
+            'auction_id' => 'required',
+            'name' => 'required|string',
+            'price' => 'required|numeric|digits_between:0,20',
+            'status' => 'required',
         ]);
 
         Product::create($request->all());
@@ -75,8 +77,10 @@ class ProductController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'name' => 'required',
-            'detail' => 'required'
+            'auction_id' => 'required',
+            'name' => 'required|string',
+            'price' => 'required|numeric|digits_between:0,20',
+            'status' => 'required',
         ]);
 
         if($validator->fails()){

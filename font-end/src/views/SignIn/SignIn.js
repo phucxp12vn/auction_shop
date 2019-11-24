@@ -9,6 +9,12 @@ import {
   IconButton,
   TextField,
   Link,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Slide,
   Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -49,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: 'url(/images/auth.jpg)',
+    backgroundImage: 'url(/images/auction-hammer.jpg)',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center'
@@ -124,6 +130,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 const SignIn = props => {
   const { history } = props;
 
@@ -133,12 +142,13 @@ const SignIn = props => {
     isValid: false,
     values: {},
     touched: {},
-    errors: {}
+    errors: {},
+    loginFailedText: ''
   });
 
   useEffect(() => {
     const errors = validate(formState.values, schema);
-
+    console.log(errors);
     setFormState(formState => ({
       ...formState,
       isValid: errors ? false : true,
@@ -182,7 +192,11 @@ const SignIn = props => {
             if (response.request.status == "200") {
               history.push('/');
             } else {
-              alert('đăng nhập thất bại');
+              setFormState(formState => ({
+                ...formState,
+                errors: error,
+                loginFailedText: 'Đăng nhập thất bại'
+              }));
             }
           })
           .catch(error => console.log(error));
@@ -193,27 +207,13 @@ const SignIn = props => {
 
   return (
     <div className={classes.root}>
-      <Grid
-        className={classes.grid}
-        container
-      >
-        <Grid
-          className={classes.quoteContainer}
-          item
-          lg={5}
-        >
+      <Grid className={classes.grid} container>
+        <Grid className={classes.quoteContainer} item lg={5}>
           <div className={classes.quote}>
-            <div className={classes.quoteInner}>
-              
-            </div>
+            <div className={classes.quoteInner} />
           </div>
         </Grid>
-        <Grid
-          className={classes.content}
-          item
-          lg={7}
-          xs={12}
-        >
+        <Grid className={classes.content} item lg={7} xs={12}>
           <div className={classes.content}>
             <div className={classes.contentHeader}>
               <IconButton onClick={handleBack}>
@@ -221,15 +221,9 @@ const SignIn = props => {
               </IconButton>
             </div>
             <div className={classes.contentBody}>
-              <form
-                className={classes.form}
-                onSubmit={handleSignIn}
-              >
-                <Typography
-                  className={classes.title}
-                  variant="h2"
-                >
-                  Sign in
+              <form className={classes.form} onSubmit={handleSignIn}>
+                <Typography className={classes.title} variant="h2">
+                  Đăng nhập
                 </Typography>
                 <TextField
                   className={classes.textField}
@@ -238,7 +232,7 @@ const SignIn = props => {
                   helperText={
                     hasError('email') ? formState.errors.email[0] : null
                   }
-                  label="Email address"
+                  label="Địa chỉ Email"
                   name="email"
                   onChange={handleChange}
                   type="text"
@@ -252,13 +246,20 @@ const SignIn = props => {
                   helperText={
                     hasError('password') ? formState.errors.password[0] : null
                   }
-                  label="Password"
+                  label="Mật khẩu"
                   name="password"
                   onChange={handleChange}
                   type="password"
                   value={formState.values.password || ''}
                   variant="outlined"
                 />
+                {/* <Link component={RouterLink} to="/products" variant="h6"> */}
+                <Typography
+                  color="textSecondary"
+                  variant="body1"
+                  style={{ color: 'red', fontSize: '16px' }}>
+                  {formState.loginFailedText}
+                </Typography>
                 <Button
                   className={classes.signInButton}
                   color="primary"
@@ -266,21 +267,14 @@ const SignIn = props => {
                   fullWidth
                   size="large"
                   type="submit"
-                  variant="contained"
-                >
-                  Sign in now
+                  variant="contained">
+                  Đăng nhập
                 </Button>
-                <Typography
-                  color="textSecondary"
-                  variant="body1"
-                >
-                  Don't have an account?{' '}
-                  <Link
-                    component={RouterLink}
-                    to="/sign-up"
-                    variant="h6"
-                  >
-                    Sign up
+                {/* </Link> */}
+                <Typography color="textSecondary" variant="body1">
+                  Bạn chưa có tài khoản ?{' '}
+                  <Link component={RouterLink} to="/sign-up" variant="h6">
+                    Đăng ký
                   </Link>
                 </Typography>
               </form>

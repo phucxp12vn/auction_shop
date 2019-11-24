@@ -1,3 +1,5 @@
+import * as constant from './constant'
+
 const axios = require('axios')
 
 class API {
@@ -10,7 +12,7 @@ class API {
    * @param {A entity Object} entity
    */
   async login(data) {
-    let response = await axios.post('http://127.0.0.1:8000/api/user/login', data);
+    let response = await axios.post(constant.loginUrl, data);
     return response
   }
 }

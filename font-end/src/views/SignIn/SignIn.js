@@ -178,8 +178,14 @@ const SignIn = props => {
         }
 
         api.login(data)
-          .then(history.push('/'))
-          .catch();
+          .then((response) => {
+            if (response.request.status == "200") {
+              history.push('/');
+            } else {
+              alert('đăng nhập thất bại');
+            }
+          })
+          .catch(error => console.log(error));
   };
 
   const hasError = field =>

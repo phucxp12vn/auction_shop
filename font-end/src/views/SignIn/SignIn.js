@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
@@ -13,6 +12,7 @@ import {
   Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { api } from '../../helpers';
 
 const schema = {
   email: {
@@ -176,16 +176,10 @@ const SignIn = props => {
           'email': formState.values.email,
           'password': formState.values.password
         }
-        axios.post('http://127.0.0.1:8000/api/user/login', data)
-          .then(response => {
-            // redirect to the homepage
-            history.push('/')
-          })
-          .catch(error => {
-            this.setState({
-              errors: error.response.data.errors
-            })
-          })
+
+        api.login(data)
+          .then(history.push('/'))
+          .catch();
   };
 
   const hasError = field =>

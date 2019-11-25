@@ -1,6 +1,4 @@
 import * as constant from './constant'
-import { useCookies } from 'react-cookie';
-
 
 const axios = require('axios')
 class API {
@@ -30,6 +28,30 @@ class API {
       return response;
     } catch (error) {
       return error.response;
+    }
+  }
+
+  async createRoom(data) {
+    try {
+      let response = await axios.post(constant.createAuctionUrl, data);
+      if (response) {
+       
+      }
+      return response;
+    } catch (error) {
+      return error
+    }
+  }
+
+  async addProduct(data) {
+    try {
+      let response = await axios.post(constant.addProductUrl, data);
+      if (response) {
+       
+      }
+      return response;
+    } catch (error) {
+      return error
     }
   }
 }

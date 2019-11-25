@@ -23,6 +23,7 @@ class AuctionController extends Controller
             'message' => 'Successfully created product!',
         ], 201);
     }
+
     public function updateAuction(Request $request, $id)
     {
         $input = $request->all();
@@ -50,7 +51,7 @@ class AuctionController extends Controller
         $auction->update($input);
 
         return response()->json([
-            'message' => 'Successfully update product!',
+            'message' => 'Successfully update auction!',
         ], 201);
     }
 
@@ -85,9 +86,24 @@ class AuctionController extends Controller
         }
         $auction->delete();
         return response()->json([
-            'message' => 'Successfully delete product!',
+            'message' => 'Successfully delete auction!',
         ], 201);
 
+    }
+
+    public function approveAuction($id){
+        $auction = Auction::find($id);
+        if (is_null($auction)) {
+            return response()->json([
+                'message' => 'Auction is not exits!',
+            ], 201);
+        }
+        $auction->status = 1;
+        $auction->save();
+
+        return response()->json([
+            'message' => 'Successfully approve auction!',
+        ], 201);
     }
 
 }

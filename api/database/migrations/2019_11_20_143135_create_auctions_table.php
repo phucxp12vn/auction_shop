@@ -17,7 +17,7 @@ class CreateAuctionsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('start_bid');
-            $table->string('last_bid');
+            $table->string('last_bid')->nullable();
             $table->string('bidAmount');
             $table->dateTime('time_start');
             $table->dateTime('time_end');

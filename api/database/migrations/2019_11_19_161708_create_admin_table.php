@@ -11,16 +11,16 @@ class CreateAdminTable extends Migration
      *
      * @return void
      */
-    public function up()
-    {
-        Schema::create('admin', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('username',50);
-            $table->string('password');
-            $table->string('email')->unique();
-            $table->timestampsTz();
-        });
-    }
+    // public function up()
+    // {
+    //     Schema::create('admin', function (Blueprint $table) {
+    //         $table->bigIncrements('id');
+    //         $table->string('username',50);
+    //         $table->string('password');
+    //         $table->string('email')->unique();
+    //         $table->timestampsTz();
+    //     });
+    // }
 
     /**
      * Reverse the migrations.

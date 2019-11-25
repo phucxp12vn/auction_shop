@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('price');
             $table->string('description')->nullable();
             $table->string('brach')->nullable();
-            $table->string('category')->nullable();
+            //$table->string('category')->nullable();
             $table->string('status');
             $table->timestampsTz();
         });

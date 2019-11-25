@@ -18,7 +18,7 @@ class products extends Seeder
             'price' => '1.500.000',
             'description' => 'dao tu doi nha Tong',
             'brach' => 'khong ro',
-            'category' => 'dao',
+            //'category' => 'dao',
             'status' => 'dang ban' 
         ]);
         

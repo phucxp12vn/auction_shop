@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class auction_users extends Seeder
+class users extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,11 +11,11 @@ class auction_users extends Seeder
      */
     public function run()
     {
-        DB::table('auction_users')->insert([
+        DB::table('users')->insert([
  
 			//'user_id' => 'admin',
 			 
-			//'priority' => 2,			 
+			'power' => 2,			 
 			'user_name' => 'Sang',
             'user_password' => md5('a3'),
             'user_fullName' => 'Phan Tan Sang',

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAuctionUsersTable extends Migration
+class CreateUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateAuctionUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('auction_users', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('power');
 			$table->string('user_name',50);
 			$table->string('user_password');
 			$table->string('user_fullName');
@@ -33,6 +34,6 @@ class CreateAuctionUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('auction_users');
+        Schema::dropIfExists('users');
     }
 }

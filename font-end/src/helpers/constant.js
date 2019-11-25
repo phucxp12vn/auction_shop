@@ -8,5 +8,5 @@ export const loginUrl = API_SERVER + "/login";
 export const createAuctionUrl = API_SERVER + "/createAuction";
 
 //Url product api
-export const addProduct = API_SERVER + "/createproduct";
+export const addProduct = API_SERVER + "/createProduct";
 

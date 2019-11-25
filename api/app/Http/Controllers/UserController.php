@@ -20,14 +20,20 @@ class UserController extends Controller
     public function signup(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed',
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+            'fullName' => 'required|string',
+            'address' => 'required|string',
+            'phoneNumber' => 'required|string',
+            'power' => 'required|string'
         ]);
         $user = new User([
-            'name' => $request->name,
+            'fullName' => $request->fullName,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'address' => $request->address,
+            'phoneNumber' => $request->phoneNumber,
+            'power' => $request->power
         ]);
         $user->save();
         return response()->json([
@@ -50,7 +56,6 @@ class UserController extends Controller
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
-            'remember_me' => 'boolean',
         ]);
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials)) {

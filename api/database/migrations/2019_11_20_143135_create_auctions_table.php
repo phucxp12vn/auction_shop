@@ -22,7 +22,7 @@ class CreateAuctionsTable extends Migration
             $table->dateTime('time_start');
             $table->dateTime('time_end');
             $table->string('seller');
-            $table->string('winner');
+            $table->string('winner')->nullable();
             $table->timestampsTz();
         });
     }

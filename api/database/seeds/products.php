@@ -17,7 +17,7 @@ class products extends Seeder
             'picture' => 'chua co',
             'price' => '1.500.000',
             'description' => 'dao tu doi nha Tong',
-            'brach' => 'khong ro',
+            'brand' => 'khong ro',
             //'category' => 'dao',
             'status' => 'dang ban' 
         ]);

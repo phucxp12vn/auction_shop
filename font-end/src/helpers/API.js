@@ -13,10 +13,6 @@ class API {
     return true;
   }
 
-  getCookieToken() {
-    return document.cookie.slice(12);
-  }
-
   async login(data) {
     try {
       let response = await axios.post(constant.loginUrl, data);
@@ -33,7 +29,14 @@ class API {
 
   async createRoom(data) {
     try {
-      let response = await axios.post(constant.createAuctionUrl, data);
+      var token = document.cookie.slice(12);
+      let response = await axios.post(constant.createAuctionUrl, data, {
+          headers: {
+              'authorization': "Bearer " + token,
+              'Accept' : 'application/json',
+              'Content-Type': 'application/json'
+          }
+        });
       if (response) {
        
       }

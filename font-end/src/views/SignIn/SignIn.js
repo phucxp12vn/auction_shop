@@ -190,7 +190,7 @@ const SignIn = props => {
         api.login(data)
           .then((response) => {
             if (response.request.status == "200") {
-              history.push('/');
+              history.push('/products');
             } else {
               setFormState(formState => ({
                 ...formState,

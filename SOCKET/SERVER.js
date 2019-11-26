@@ -11,7 +11,7 @@ server.listen(3000);
 //list User connect to server
 var mangUsers = [];
 var maxBid = {};
-io.on("connection", function(socket) {
+io.on("connection", function (socket) {
   // console.log("Co nguoi ket noi " + socket.id);
 
   function User($username, $id) {
@@ -28,6 +28,7 @@ io.on("connection", function(socket) {
     }
     return false;
   }
+
   function searchForUserName(id) {
     for (var i = 0; i < mangUsers.length; i++) {
       if (mangUsers[i].ID == id) {
@@ -36,12 +37,13 @@ io.on("connection", function(socket) {
     }
     return false;
   }
+
   //Create username, send list User to client
-  socket.on("client-send-Username", function(data) {
+  socket.on("client-send-Username", function (data) {
     $flag = true;
     var object = {};
     var numb = -1;
-    mangUsers.forEach(function(item, i) {
+    mangUsers.forEach(function (item, i) {
       if (item.UserName == data) {
         // Exits user
         numb = i;
@@ -50,6 +52,7 @@ io.on("connection", function(socket) {
         return;
       }
     });
+
     if (object.UserName) {
       if (object.status == true) {
         socket.emit("server-send-dki-thatbai");
@@ -67,12 +70,11 @@ io.on("connection", function(socket) {
       socket.Username = data;
       socket.emit("server-send-dki-thanhcong", $users);
       io.sockets.emit("server-send-danhsach-Users", mangUsers);
-     
     }
   });
 
   //remove user in list User
-  socket.on("logout", function() {
+  socket.on("logout", function () {
     for (var i = 0; i < mangUsers.length; i++) {
       if (mangUsers[i].ID === socket.id) {
         mangUsers[i].status = false;
@@ -83,7 +85,7 @@ io.on("connection", function(socket) {
   });
 
   //send username and message to client
-  socket.on("user-send-message", function(data) {
+  socket.on("user-send-message", function (data) {
     if (socket.Username !== undefined) {
       io.sockets.emit("server-send-mesage", {
         un: socket.Username,
@@ -92,53 +94,19 @@ io.on("connection", function(socket) {
     }
   });
 
-  // ------CHAT FRIEND------ //
-  //Check username in mangUser
-  socket.on("username-friend", function(data) {
-    // console.log(data);
-    for (var i = 0; i < mangUsers.length; i++) {
-      if (mangUsers[i].ID === data) {
-        socket.emit("server-send-username-friend", mangUsers[i]);
-        break;
-      }
-    }
-  });
-
-  //Send private message
-  socket.on("send-message-friend", function(data) {
-    if (socket.Username !== undefined) {
-      //Server send message to User
-      var friendID = searchForId(data.receiverName);
-      io.to(friendID).emit("sever-send-msg-friend", {
-        un: socket.Username,
-        nd: data.message,
-        sender: data.sender,
-        senderName: data.senderName,
-        receiverName: data.receiverName
-      });
-      //Server send message to client
-      socket.emit("server-send-msg-thanhcong", {
-        un: socket.Username,
-        nd: data.message,
-        sender: data.sender,
-        senderName: data.senderName,
-        receiverName: data.receiverName
-      });
-    }
-  });
   // ------ CHAT ROOM ------- //
   // socket.adapter.rooms=>list rooms
-  socket.on("client-send-RoomName", function(data) {
+  socket.on("client-send-RoomName", function (data) {
     if (socket.Username !== undefined) {
       var mangRoom = Object.keys(io.sockets.adapter.rooms);
       var existRoom = false;
-      for (let i=0; i<mangRoom.length; i++) {
-        if(data == mangRoom[i]) {
-            existRoom = true;
-            break;
+      for (let i = 0; i < mangRoom.length; i++) {
+        if (data == mangRoom[i]) {
+          existRoom = true;
+          break;
         }
       }
-      if(!existRoom) {
+      if (!existRoom) {
         maxBid[data] = 0;
       }
       socket.join(data);
@@ -161,10 +129,10 @@ io.on("connection", function(socket) {
 
       //list user in Room
       var lstUser = [];
-      
+
       var sioRoom = io.sockets.adapter.rooms[data];
       if (sioRoom) {
-        Object.keys(sioRoom.sockets).forEach(function(socketId) {
+        Object.keys(sioRoom.sockets).forEach(function (socketId) {
           for (var i = 0; i < mangUsers.length; i++) {
             if (mangUsers[i].ID === socketId) {
               lstUser.push(mangUsers[i].UserName);
@@ -183,15 +151,15 @@ io.on("connection", function(socket) {
   });
 
   //Server send message to client in Room // xu ly dau gia
-  socket.on("user-chat", function(data) {
+  socket.on("user-chat", function (data) {
     if (socket.Username !== undefined) {
-      if(data.currentValue > maxBid[myRoom]){
-        maxBid[myRoom] = data.currentValue;
-        io.sockets.in(myRoom).emit("server-chat", {
-            un: socket.Username,
-            nd: data.currentValue,//gia tri tien hop le tra ve, tien lon nhat
-            nameRoom: myRoom
-          });
+      if (parseInt(data.currentValue) > maxBid[data.myRoom]) {
+        maxBid[data.myRoom] = data.currentValue;
+        io.sockets.in(data.myRoom).emit("server-chat", {
+          un: socket.Username,
+          nd: data.currentValue, //gia tri tien hop le tra ve, tien lon nhat
+          nameRoom: data.myRoom
+        });
       } else {
         socket.emit("error-value");
       }
@@ -199,7 +167,7 @@ io.on("connection", function(socket) {
   });
 
   // Leave room
-  socket.on("leave-room", function(data) {
+  socket.on("leave-room", function (data) {
     socket.leave(data);
     var lstRooom = [];
     // get list room, except room default of socket
@@ -221,7 +189,7 @@ io.on("connection", function(socket) {
     var lstUser = [];
     var sioRoom = io.sockets.adapter.rooms[data];
     if (sioRoom) {
-      Object.keys(sioRoom.sockets).forEach(function(socketId) {
+      Object.keys(sioRoom.sockets).forEach(function (socketId) {
         for (var i = 0; i < mangUsers.length; i++) {
           if (mangUsers[i].ID === socketId) {
             lstUser.push(mangUsers[i].UserName);
@@ -238,12 +206,12 @@ io.on("connection", function(socket) {
   });
 
   //Send list user in room when user leave room, user hover in room
-  socket.on("send-list-us-Room", function(data) {
+  socket.on("send-list-us-Room", function (data) {
     //list user in Room
     var lstUser = [];
     var sioRoom = io.sockets.adapter.rooms[data];
     if (sioRoom) {
-      Object.keys(sioRoom.sockets).forEach(function(socketId) {
+      Object.keys(sioRoom.sockets).forEach(function (socketId) {
         for (var i = 0; i < mangUsers.length; i++) {
           if (mangUsers[i].ID === socketId) {
             lstUser.push(mangUsers[i].UserName);
@@ -256,7 +224,7 @@ io.on("connection", function(socket) {
   });
 
   //Disconnect
-  socket.on("disconnect", function() {
+  socket.on("disconnect", function () {
     for (var i = 0; i < mangUsers.length; i++) {
       if (mangUsers[i].ID === socket.id) {
         mangUsers[i].status = false;
@@ -268,6 +236,6 @@ io.on("connection", function(socket) {
   });
 });
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.render("trangchu");
 });

@@ -39,6 +39,7 @@ Route::group([
         Route::get('updateProduct/{id}', 'ProductController@updateProduct');
         Route::get('getProduct/{id}', 'ProductController@getProduct');
         Route::get('getAllProduct', 'ProductController@getAllProduct');
+        Route::get('getAllProductApproved', 'ProductController@getAllProductApproved');
         Route::get('deleteAuction/{id}', 'ProductController@deleteAuction');
 
     });

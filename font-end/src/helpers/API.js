@@ -37,9 +37,7 @@ class API {
               'Content-Type': 'application/json'
           }
         });
-      if (response) {
-       
-      }
+
       return response;
     } catch (error) {
       return error
@@ -48,10 +46,15 @@ class API {
 
   async addProduct(data) {
     try {
-      let response = await axios.post(constant.addProductUrl, data);
-      if (response) {
-       
-      }
+      var token = document.cookie.slice(12);
+      let response = await axios.post(constant.addProductUrl, data, {
+          headers: {
+              'authorization': "Bearer " + token,
+              'Accept' : 'application/json',
+              'Content-Type': 'application/json'
+          }
+        });
+
       return response;
     } catch (error) {
       return error

@@ -4,6 +4,8 @@ import { Grid } from '@material-ui/core';
 import uuid from 'uuid/v1';
 
 import { Product, RoomDetails } from './components';
+import { api } from '../../helpers';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,13 +19,13 @@ const CreateRoom = () => {
   const [roomState, setRoomState] = useState({
     display: true,
     room: {
-      roomId: uuid(),
+      roomId: '',
       roomName: '',
       desc: '',
       startBid: '',
       bidJump: 0,
       startTime: '2017-05-24T10:30',
-      endTime: '2017-05-24T10:30'
+      endTime: '2017-05-24T10:31'
     },
     product: {
       name: '',
@@ -40,23 +42,40 @@ const CreateRoom = () => {
 
   const handleSaveRoomDetails = room => {
     console.log('ROOOOOMMM', room);
-    setRoomState(roomState => ({
-      ...roomState,
-      display: false,
-      room
-    }));
+    // var data = {
+    //   name: 'room name',
+    //   start_bid: '5000',
+    //   bidAmount: '50',
+    //   last_bid: 0,
+    //   timeStart: '2019-11-11 00:00:00',
+    //   timeEnd: '2019-12-12 00:00:00'
+    // };
+    api.createRoom(room)
+          .then((response) => {
+            if (response.request.status == "201") {
+              room['roomId'] = response.data.auctionId;
+              setRoomState(roomState => ({
+                ...roomState,
+                display: false,
+                room
+              }));
+            }
+          })
+          .catch(error => console.log(error));
   };
 
   const handleAddProduct = product => {
     console.log('Producttttttt', product);
-    setRoomState(roomState => ({
-      ...roomState,
-      product
-    }));
-    // Bước này đã gộp xong các biển Room , Product để gửi qua API
-    // ------------ API --------------
-
-    // ------------ API - END --------------
+    api.createRoom(product)
+          .then((response) => {
+            if (response.request.status == "201") {
+              setRoomState(roomState => ({
+                ...roomState,
+                product
+              }));
+            }
+          })
+          .catch(error => console.log(error));
   };
 
   return (

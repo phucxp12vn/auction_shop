@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Link as RouterLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import validate from 'validate.js';
@@ -19,6 +18,7 @@ import {
   Typography
 } from '@material-ui/core';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { api } from '../../helpers';
 
 const schema = {
   email: {
@@ -181,35 +181,25 @@ const SignIn = props => {
 
   const handleSignIn = event => {
     event.preventDefault();
+    
+        var data = {
+          'email': formState.values.email,
+          'password': formState.values.password
+        }
 
-    var data = {
-      email: formState.values.email,
-      password: formState.values.password
-    };
-    axios
-      .post('http://127.0.0.1:3000/api/user/login', data)
-      .then(response => {
-        // redirect to the homepage
-        setFormState(formState => ({
-          ...formState,
-          errors: {},
-          loginFailedText: ''
-        }));
-        history.push('/');
-      })
-      .catch(error => {
-        console.log(error);
-        setFormState(formState => ({
-          ...formState,
-          errors: error,
-          loginFailedText: 'Đăng nhập thất bại'
-        }));
-      });
-    // API.login()
-    //   .then(function(data) {
-
-    //   })
-    //   .catch();
+        api.login(data)
+          .then((response) => {
+            if (response.request.status == "200") {
+              history.push('/');
+            } else {
+              setFormState(formState => ({
+                ...formState,
+                errors: {},
+                loginFailedText: 'Đăng nhập thất bại'
+              }));
+            }
+          })
+          .catch(error => console.log(error));
   };
 
   const hasError = field =>

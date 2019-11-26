@@ -18,13 +18,14 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Product = props => {
-  console.log(props);
+  console.log('Product Props', props);
   const { className, ...rest } = props;
 
   const classes = useStyles();
 
   const [values, setValues] = useState({
     name: '',
+    auctionId: props.roomDetails.roomId,
     picture: {
       name: '',
       file: null
@@ -35,13 +36,14 @@ const Product = props => {
   });
 
   const handleChange = event => {
+    console.log('Product before Change');
     setValues({
       ...values,
       [event.target.name]: event.target.value
     });
   };
 
-  useEffect(() => console.log(values), [values]);
+  useEffect(() => console.log('values', values), [values]);
   const states = [
     {
       value: 'alabama',
@@ -189,7 +191,7 @@ const Product = props => {
                 fullWidth
                 label="Mô tả"
                 margin="dense"
-                name="description"
+                name="desc"
                 onChange={handleChange}
                 multiline
                 required
@@ -207,7 +209,8 @@ const Product = props => {
             style={{
               backgroundColor: '#17669c',
               color: '#fff'
-            }}>
+            }}
+            onClick={() => props.onAddProduct(values)}>
             Thêm
           </Button>
         </CardActions>

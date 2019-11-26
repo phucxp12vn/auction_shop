@@ -104,24 +104,14 @@ const Product = props => {
                 {values.name}
               </Typography>
               <Grid container spacing={3}>
-                <Grid item md={2} xs={4}>
-                  <Typography variant="h4">Nhãn hiệu</Typography>
-                </Grid>
-                <Grid item md={10} xs={12}>
-                  <Typography className={classes.typo} variant="h3">
-                    : {values.brand}
-                  </Typography>
-                </Grid>
+                <Typography className={classes.typo} variant="h3">
+                  {values.brand}
+                </Typography>
               </Grid>
               <Grid container spacing={3}>
-                <Grid item md={2} xs={4}>
-                  <Typography variant="h4">Mô tả</Typography>
-                </Grid>
-                <Grid item md={10} xs={12}>
-                  <Typography className={classes.typo} variant="h3">
-                    : {values.description}
-                  </Typography>
-                </Grid>
+                <Typography className={classes.typo} variant="h3">
+                  {values.description}
+                </Typography>
               </Grid>
 
               <Grid container spacing={3}>

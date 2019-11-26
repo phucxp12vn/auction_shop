@@ -46,6 +46,7 @@ const RoomDetails = props => {
   const classes = useStyles();
 
   const [values, setValues] = useState({
+    roomId: props.roomDetails.roomId,
     roomName: '',
     desc: '',
     startBid: '',

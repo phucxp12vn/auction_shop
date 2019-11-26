@@ -15,6 +15,20 @@ class ProductController extends Controller
      */
     public function getAllProduct()
     {
+        $products = Product::latest()->paginate(5);
+
+        return response()->json([
+            'result' => $products->toArray(),
+        ], 201);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllProductApproved()
+    {
         $products = Product::where('status', '1')->paginate(5);
 
         return response()->json([

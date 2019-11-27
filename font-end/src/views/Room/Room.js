@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
@@ -23,15 +23,31 @@ const useStyles = makeStyles(theme => ({
 const Room = () => {
   const classes = useStyles();
 
-  const [open, setOpen] = React.useState(false);
+  const [roomState, setRoomState] = useState({
+    name: 'ten phong',
+    start_bid: 100000,
+    bidAmount: 10000,
+    last_bid: 0,
+    timeStart: '',
+    timeEnd: '',
+    seller: '',
+    status: '',
+    product: {
+      name: 'Nón Vegeta',
+      picture: {
+        name: '',
+        file: null
+      },
+      brand: 'Vegeta Brand',
+      currentBid: 100000,
+      currentWinner: 'Tam',
+      description: 'Very cooooool',
+      country: 'Namec',
+      bidPrice: null
+    }
+  });
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleBid = () => {};
 
   return (
     <div className={classes.root}>
@@ -42,7 +58,7 @@ const Room = () => {
         </Grid> */}
         <Grid>
           {/* item lg={8} md={6} xl={8} xs={12} */}
-          <Product />
+          <Product roomState={roomState} />
         </Grid>
       </Grid>
     </div>

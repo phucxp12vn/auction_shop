@@ -19,37 +19,33 @@ const CreateRoom = () => {
   const [roomState, setRoomState] = useState({
     display: true,
     room: {
-      roomId: '',
-      roomName: '',
+      auctionId: uuid(),
+      name: '',
       desc: '',
       startBid: '',
-      bidJump: 0,
-      startTime: '2017-05-24T10:30',
-      endTime: '2017-05-24T10:31'
+      bidAmount: 0,
+      timeStart: '2017-05-24T10:30',
+      timeEnd: '2017-05-24T10:30',
+      seller: '',
+      status: '',
+      createAt: '',
+      updateAt: ''
     },
     product: {
       name: '',
       auctionId: '',
-      picture: {
-        name: '',
-        file: null
-      },
+      picture: null,
       brand: '',
       price: '',
-      desc: ''
+      description: '',
+      status: '',
+      createAt: '',
+      updateAt: ''
     }
   });
 
   const handleSaveRoomDetails = room => {
     console.log('ROOOOOMMM', room);
-    // var data = {
-    //   name: 'room name',
-    //   start_bid: '5000',
-    //   bidAmount: '50',
-    //   last_bid: 0,
-    //   timeStart: '2019-11-11 00:00:00',
-    //   timeEnd: '2019-12-12 00:00:00'
-    // };
     api.createRoom(room)
           .then((response) => {
             if (response.request.status == "201") {
@@ -66,11 +62,6 @@ const CreateRoom = () => {
 
   const handleAddProduct = product => {
     console.log('Producttttttt', product);
-    // var data = {
-    //   name: 'product test',
-    //   auction_id: '100',
-    //   price: '50',
-    // };
     api.addProduct(product)
           .then((response) => {
             if (response.request.status == "201") {

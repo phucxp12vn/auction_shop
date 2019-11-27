@@ -68,10 +68,12 @@ class ProductController extends Controller
             'auction_id' => 'required',
             'name' => 'required|string',
             'price' => 'required|numeric|digits_between:0,20',
-            'status' => 'required',
         ]);
 
-        Product::create($request->all());
+        Product::create(array_merge(
+            $request->all(),
+            ['status' => 1],
+        ));
 
         return response()->json([
             'message' => 'Successfully created product!',

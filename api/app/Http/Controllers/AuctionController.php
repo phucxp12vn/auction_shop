@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Auction;
 use Illuminate\Http\Request;
-use Validator;
 use Illuminate\Support\Facades\Auth;
+use Validator;
 
 class AuctionController extends Controller
 {
@@ -18,10 +18,9 @@ class AuctionController extends Controller
             'last_bid' => 'required|numeric|digits_between:0,20',
             'timeStart' => 'required|date_format:Y-m-d H:i:s',
             'timeEnd' => 'required|date_format:Y-m-d H:i:s|after:timeStart',
-            'seller' => 'string',
         ]);
 
-        $auction = Auction::create(array_merge($request->all(), 
+        $auction = Auction::create(array_merge($request->all(),
             ['seller' => Auth::id()],
             ['status' => 1],
         ));
@@ -99,7 +98,8 @@ class AuctionController extends Controller
 
     }
 
-    public function approveAuction($id){
+    public function approveAuction($id)
+    {
         $auction = Auction::find($id);
         if (is_null($auction)) {
             return response()->json([

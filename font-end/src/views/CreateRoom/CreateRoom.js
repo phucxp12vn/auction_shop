@@ -66,7 +66,12 @@ const CreateRoom = () => {
 
   const handleAddProduct = product => {
     console.log('Producttttttt', product);
-    api.createRoom(product)
+    // var data = {
+    //   name: 'product test',
+    //   auction_id: '100',
+    //   price: '50',
+    // };
+    api.addProduct(product)
           .then((response) => {
             if (response.request.status == "201") {
               setRoomState(roomState => ({

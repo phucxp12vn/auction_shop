@@ -8,16 +8,18 @@ import {
   CardActions,
   Typography,
   Grid,
+  Button,
   Divider
 } from '@material-ui/core';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
+import GavelIcon from '@material-ui/icons/Gavel';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
 const useStyles = makeStyles(theme => ({
   root: {},
   imageContainer: {
-    height: 64,
-    width: 64,
+    height: 150,
+    width: 150,
     margin: '0 auto',
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: '5px',
@@ -36,6 +38,11 @@ const useStyles = makeStyles(theme => ({
   statsIcon: {
     color: theme.palette.icon,
     marginRight: theme.spacing(1)
+  },
+  listButton: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+    marginBottom: '2%'
   }
 }));
 
@@ -45,64 +52,53 @@ const ProductCard = props => {
   const classes = useStyles();
 
   return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
+    <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent>
         <div className={classes.imageContainer}>
-          <img
-            alt="Product"
-            className={classes.image}
-            src={product.imageUrl}
-          />
+          <img alt="Product" className={classes.image} src={product.picture} />
         </div>
-        <Typography
-          align="center"
-          gutterBottom
-          variant="h4"
-        >
-          {product.title}
+        <Typography align="center" gutterBottom variant="h4">
+          {product.name}
         </Typography>
         <Typography
           align="center"
           variant="body1"
-        >
-          {product.description}
+          style={{ fontWeight: 'bold', fontSize: '35px' }}>
+          {product.price}
+          {/* {product.description} */}
         </Typography>
       </CardContent>
       <Divider />
       <CardActions>
-        <Grid
-          container
-          justify="space-between"
-        >
-          <Grid
-            className={classes.statsItem}
-            item
-          >
+        <Grid container justify="space-between">
+          <Grid className={classes.statsItem} item>
             <AccessTimeIcon className={classes.statsIcon} />
-            <Typography
-              display="inline"
-              variant="body2"
-            >
-              Updated 2hr ago
+            <Typography display="inline" variant="body2">
+              Cập nhật 2 giờ trước
             </Typography>
           </Grid>
-          <Grid
-            className={classes.statsItem}
-            item
-          >
-            <GetAppIcon className={classes.statsIcon} />
-            <Typography
-              display="inline"
-              variant="body2"
-            >
-              {product.totalDownloads} Downloads
+          <Grid className={classes.statsItem} item>
+            <GavelIcon className={classes.statsIcon} />
+            <Typography display="inline" variant="body2">
+              {product.totalBids} lần đấu giá
             </Typography>
           </Grid>
         </Grid>
       </CardActions>
+      <div className={classes.listButton}>
+        <Button
+          variant="contained"
+          color="secondary"
+          className={classes.button}>
+          Chi tiết
+        </Button>
+        <Button
+          variant="contained"
+          className={classes.button}
+          style={{ backgroundColor: '#4fc34f',color : '#fff' }}>
+          Tham gia
+        </Button>
+      </div>
     </Card>
   );
 };

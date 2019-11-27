@@ -26,13 +26,13 @@ const Product = props => {
   const [values, setValues] = useState({
     name: '',
     auctionId: props.roomDetails.roomId,
-    picture: {
-      name: '',
-      file: null
-    },
+    picture: null,
     brand: '',
     price: '',
-    desc: ''
+    description: '',
+    status: '',
+    createAt: '',
+    updateAt: ''
   });
 
   const handleChange = event => {
@@ -61,10 +61,7 @@ const Product = props => {
   const onChangeHandler = event => {
     setValues({
       ...values,
-      picture: {
-        name: event.target.files[0].name,
-        file: event.target.files[0]
-      }
+      picture: event.target.files[0]
     });
   };
 
@@ -133,7 +130,7 @@ const Product = props => {
                 name="image"
                 onChange={handleChange}
                 required
-                value={values.picture.name}
+                value={values.picture === null ? '' : values.picture.name}
                 variant="outlined"
                 // inputProps={{ type: 'file' }}
               />
@@ -195,7 +192,7 @@ const Product = props => {
                 onChange={handleChange}
                 multiline
                 required
-                value={values.desc}
+                value={values.description}
                 variant="outlined"
               />
             </Grid>

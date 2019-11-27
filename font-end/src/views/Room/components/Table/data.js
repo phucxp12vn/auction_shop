@@ -93,8 +93,8 @@ export default [
   },
   {
     id: uuid(),
-    userName: 'Ekaterina Tankova',
-    bidPrice: 100000,
-    dateTime: '10-10-2019'
+    userName: 'Thi Pho',
+    bidPrice: 1200000,
+    dateTime: '12-10-2019'
   }
 ];

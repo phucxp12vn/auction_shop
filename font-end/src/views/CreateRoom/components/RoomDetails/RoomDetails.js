@@ -44,16 +44,7 @@ const RoomDetails = props => {
   const { className, ...rest } = props;
 
   const classes = useStyles();
-
-  const [values, setValues] = useState({
-    roomId: props.roomDetails.roomId,
-    roomName: '',
-    desc: '',
-    startBid: '',
-    bidJump: 0,
-    startTime: '2017-05-24T10:30',
-    endTime: '2017-05-24T10:30'
-  });
+  const [values, setValues] = useState(props.roomDetails);
 
   const handleChange = event => {
     setValues({
@@ -133,9 +124,9 @@ const RoomDetails = props => {
                   helperText="  "
                   id="datetime-local"
                   label="Bắt đầu"
-                  name="startTime"
+                  name="timeStart"
                   type="datetime-local"
-                  value={values.startTime}
+                  value={values.timeStart}
                   onChange={handleChange}
                   className={classes.textField}
                   InputLabelProps={{
@@ -151,9 +142,9 @@ const RoomDetails = props => {
                   helperText="  "
                   id="datetime-local"
                   label="Kết thúc"
-                  name="endTime"
+                  name="timeEnd"
                   type="datetime-local"
-                  value={values.endTime}
+                  value={values.timeEnd}
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true

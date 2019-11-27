@@ -17,24 +17,28 @@ const CreateRoom = () => {
   const [roomState, setRoomState] = useState({
     display: true,
     room: {
-      roomId: uuid(),
-      roomName: '',
+      auctionId: uuid(),
+      name: '',
       desc: '',
       startBid: '',
-      bidJump: 0,
-      startTime: '2017-05-24T10:30',
-      endTime: '2017-05-24T10:30'
+      bidAmount: 0,
+      timeStart: '2017-05-24T10:30',
+      timeEnd: '2017-05-24T10:30',
+      seller: '',
+      status: '',
+      createAt: '',
+      updateAt: ''
     },
     product: {
       name: '',
       auctionId: '',
-      picture: {
-        name: '',
-        file: null
-      },
+      picture: null,
       brand: '',
       price: '',
-      desc: ''
+      description: '',
+      status: '',
+      createAt: '',
+      updateAt: ''
     }
   });
 

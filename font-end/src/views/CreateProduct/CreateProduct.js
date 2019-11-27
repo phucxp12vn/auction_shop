@@ -17,15 +17,24 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const Product = props => {
-  console.log('Product Props', props.roomDetails.auctionId);
+const CreateProduct = props => {
+  console.log('CreateProduct Props', props);
+
+  const auctionInfo = () => {
+    // Gửi mã phòng : props.match.params.auctionId
+    // => Response về , return repsonse.
+    return {
+      name:'Thi Pho'
+    }
+  }
+
   const { className, ...rest } = props;
 
   const classes = useStyles();
 
   const [values, setValues] = useState({
     name: '',
-    auctionId: props.roomDetails.auctionId,
+    auctionId: props.match.params.auctionId,
     picture: null,
     brand: '',
     price: '',
@@ -35,7 +44,7 @@ const Product = props => {
     updateAt: ''
   });
   const handleChange = event => {
-    console.log('Product before Change');
+    console.log('CreateProduct before Change');
     setValues({
       ...values,
       [event.target.name]: event.target.value
@@ -86,7 +95,7 @@ const Product = props => {
                 name="roomName"
                 // onChange={handleChange}
                 required
-                value={props.roomDetails.roomName}
+                // value={props.roomDetails.roomName}
                 variant="outlined"
               />
             </Grid>
@@ -100,7 +109,7 @@ const Product = props => {
                 name="roomDesc"
                 // onChange={handleChange}
                 required
-                value={props.roomDetails.desc}
+                // value={props.roomDetails.desc}
                 variant="outlined"
               />
             </Grid>
@@ -205,8 +214,8 @@ const Product = props => {
             style={{
               backgroundColor: '#17669c',
               color: '#fff'
-            }}
-            onClick={() => props.onAddProduct(values)}>
+            }}>
+            {/*onClick={() => props.onAddCreateProduct(values)}> */}
             Thêm
           </Button>
         </CardActions>
@@ -215,8 +224,8 @@ const Product = props => {
   );
 };
 
-Product.propTypes = {
+CreateProduct.propTypes = {
   className: PropTypes.string
 };
 
-export default Product;
+export default CreateProduct;

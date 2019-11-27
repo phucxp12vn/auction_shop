@@ -23,7 +23,7 @@ class CreateProductsTable extends Migration
             $table->string('description')->nullable();
             $table->string('brand')->nullable();
             //$table->string('category')->nullable();
-            $table->string('status');
+            $table->smallInteger('status');
             $table->timestampsTz();
         });
     }

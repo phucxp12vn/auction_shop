@@ -16,10 +16,10 @@ class users extends Seeder
 			//'user_id' => 'admin',
 			 
 			'power' => 2,			 
-			'user_name' => 'Sang',
+            //'user_name' => 'Sang',
+            'user_email' => 'sang@gmail.com',
             'user_password' => md5('a3'),
-            'user_fullName' => 'Phan Tan Sang',
-			'user_email' => 'sang@gmail.com',
+            'user_fullName' => 'Phan Tan Sang',	
 			'user_address' => '139/8a trần hưng đạo',
 			'user_phoneNumber' => '01232755345',
 			//'user_gender' => 'Nam'			 

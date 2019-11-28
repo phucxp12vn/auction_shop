@@ -20,12 +20,12 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
+var auctionInfo = {
+  name: ''
+};
+
 const CreateProduct = props => {
   console.log('CreateProduct Props', props);
-
-  const auctionInfo = {
-    name: ''
-  };
 
   const { className, ...rest } = props;
 
@@ -40,15 +40,18 @@ const CreateProduct = props => {
     brand: ''
   });
 
- // Gọi API lấy thông tin phòng, gán response cho auctionInfo.
-    useEffect(() => {
-      api.getAuctionInfo(product.auction_id)
-        .then(res => {
-          auctionInfo['name'] = res.data.result['name'];
-        })
-        .catch(err => {
-        })
-    }, []);
+  // Gọi API lấy thông tin phòng, gán response cho auctionInfo.
+  useEffect(() => {
+    if (auctionInfo.name === '') {
+      auctionInfo.name = 'after useEffect()';
+      // api.getAuctionInfo(product.auction_id)
+      //   .then(res => {
+      //     auctionInfo.name = res.data.result.name;
+      //   })
+      //   .catch(err => {
+      //   })
+    }
+  }, []);
 
   const handleChange = event => {
     console.log('CreateProduct before Change');
@@ -59,15 +62,16 @@ const CreateProduct = props => {
   };
 
   const handleCreateProduct = () => {
-    api.addProduct(product)
-          .then((response) => {
-            if (response.request.status == "201") {
-              props.history.push(`/products/`);
-            }
-          })
-          .catch(error => {
-            return <Redirect exact from="/" to="/sign-in" />
-          });
+    api
+      .addProduct(product)
+      .then(response => {
+        if (response.request.status == '201') {
+          props.history.push(`/products/`);
+        }
+      })
+      .catch(error => {
+        return <Redirect exact from="/" to="/sign-in" />;
+      });
   };
 
   const onChangeHandler = event => {

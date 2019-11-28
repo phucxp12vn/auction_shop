@@ -15,7 +15,6 @@ class AuctionController extends Controller
             'name' => 'required|string',
             'start_bid' => 'required|numeric|digits_between:0,20',
             'bidAmount' => 'required|numeric|digits_between:0,20',
-            'last_bid' => 'required|numeric|digits_between:0,20',
             'timeStart' => 'required|date_format:Y-m-d H:i:s',
             'timeEnd' => 'required|date_format:Y-m-d H:i:s|after:timeStart',
         ]);

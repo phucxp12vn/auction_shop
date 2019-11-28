@@ -16,7 +16,8 @@ import {
   SignIn as SignInView,
   NotFound as NotFoundView,
   CreateRoom as CreateRoomView,
-  Room as RoomView
+  Room as RoomView,
+  CreateProduct as CreateProductView
 } from './views';
 
 const Routes = () => {
@@ -29,6 +30,7 @@ const Routes = () => {
         layout={MainLayout}
         path="/dashboard"
       />
+
       <RouteWithLayout
         component={UserListView}
         exact
@@ -64,6 +66,12 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/settings"
+      />
+      <RouteWithLayout
+        component={CreateProductView}
+        exact
+        layout={MainLayout}
+        path="/create-product/:auctionId"
       />
       <RouteWithLayout
         component={CreateRoomView}

@@ -17,49 +17,54 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-const Product = props => {
-  console.log('Product Props', props.roomDetails.auctionId);
+const CreateProduct = props => {
+  console.log('CreateProduct Props', props);
+
+  const auctionInfo = {
+    name: 'thipho'
+  };
+
+  // Gọi API lấy thông tin phòng, gán response cho auctionInfo.
+
   const { className, ...rest } = props;
+
   const classes = useStyles();
 
-  const [values, setValues] = useState({
+  const [product, setValues] = useState({
     name: '',
-<<<<<<< Updated upstream
-    auctionId: props.roomDetails.auctionId,
-=======
-    auctionId: '',
->>>>>>> Stashed changes
-    picture: null,
-    brand: '',
+    auction_id: props.match.params.auctionId,
+    // picture: null,
     price: '',
-    description: '',
+    descreption: '',
+    brand: ''
   });
+
+  useEffect(() => console.log('product', product), [product]);
+
   const handleChange = event => {
-    console.log('Product before Change');
+    console.log('CreateProduct before Change');
     setValues({
-      ...values,
+      ...product,
       [event.target.name]: event.target.value
     });
   };
 
+  const handleCreateProduct = () => {
+    // Gọi API CreateProduct , tham số "product"
+    // api
+    //   .addProduct(product)
+    //   .then(response => {
+    //     if (response.request.status == '201') {
+    //
+    //     }
+    //   })
+    //   .catch(error => console.log(error));
+  };
 
-  const states = [
-    {
-      value: 'alabama',
-      label: 'Alabama'
-    },
-    {
-      value: 'new-york',
-      label: 'New York'
-    },
-    {
-      value: 'san-francisco',
-      label: 'San Francisco'
-    }
-  ];
+  useEffect(() => console.log('product', product), [product]);
   const onChangeHandler = event => {
     setValues({
-      ...values,
+      ...product,
       picture: event.target.files[0]
     });
   };
@@ -83,26 +88,25 @@ const Product = props => {
                 label="Tên phòng"
                 margin="dense"
                 disabled
-                name="name"
-                // onChange={handleChange}
+                name="roomName"
                 required
-                value={props.roomDetails.name}
+                value={auctionInfo.name}
                 variant="outlined"
               />
             </Grid>
             <Grid item md={6} xs={12}>
-              <TextField
+              {/* <TextField
                 fullWidth
                 helperText="  "
-                label="Mã phòng "
+                label="Mô tả phòng"
                 margin="dense"
                 disabled
-                name="auctionId"
-                //onChange={handleChange}
+                name="roomDesc"
+                // onChange={handleChange}
                 required
-                value={props.roomDetails.auctionId}
+                // value={props.roomDetails.desc}
                 variant="outlined"
-              />
+              /> */}
             </Grid>
           </Grid>
         </CardContent>
@@ -117,11 +121,11 @@ const Product = props => {
                 name="name"
                 onChange={handleChange}
                 required
-                // value={values.name}s
+                // value={product.name}
                 variant="outlined"
               />
             </Grid>
-            <Grid item md={6} xs={12}>
+            {/* <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
                 label="Hình ảnh"
@@ -129,7 +133,7 @@ const Product = props => {
                 name="image"
                 onChange={handleChange}
                 required
-                value={values.picture === null ? '' : values.picture.name}
+                value={product.picture === null ? '' : product.picture.name}
                 variant="outlined"
                 // inputProps={{ type: 'file' }}
               />
@@ -140,7 +144,7 @@ const Product = props => {
                 id="raised-button-file"
                 type="file"
                 name="picture"
-                onInput={onChangeHandler}
+                onChange={onChangeHandler}
               />
               <label htmlFor="raised-button-file">
                 <Button
@@ -156,7 +160,7 @@ const Product = props => {
                   Tải lên
                 </Button>
               </label>
-            </Grid>
+            </Grid> */}
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
@@ -165,7 +169,7 @@ const Product = props => {
                 name="brand"
                 onChange={handleChange}
                 required
-                value={values.brand}
+                value={product.brand}
                 variant="outlined"
               />
             </Grid>
@@ -177,7 +181,7 @@ const Product = props => {
                 name="price"
                 onChange={handleChange}
                 type="number"
-                value={values.price}
+                value={product.price}
                 variant="outlined"
                 inputProps={{ step: 10000 }}
               />
@@ -187,11 +191,11 @@ const Product = props => {
                 fullWidth
                 label="Mô tả"
                 margin="dense"
-                name="description"
+                name="descreption"
                 onChange={handleChange}
                 multiline
                 required
-                value={values.description}
+                value={product.descreption}
                 variant="outlined"
               />
             </Grid>
@@ -206,7 +210,7 @@ const Product = props => {
               backgroundColor: '#17669c',
               color: '#fff'
             }}
-            onClick={() => props.onAddProduct(values)}>
+            onClick={handleCreateProduct}>
             Thêm
           </Button>
         </CardActions>
@@ -215,8 +219,8 @@ const Product = props => {
   );
 };
 
-Product.propTypes = {
+CreateProduct.propTypes = {
   className: PropTypes.string
 };
 
-export default Product;
+export default CreateProduct;

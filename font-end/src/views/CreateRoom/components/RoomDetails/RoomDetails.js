@@ -96,10 +96,10 @@ const RoomDetails = props => {
                   label="Giá khởi điểm"
                   helperText="  "
                   margin="dense"
-                  name="startBid"
+                  name="start_bid"
                   onChange={handleChange}
                   type="number"
-                  value={values.startBid}
+                  value={values.start_bid}
                   variant="outlined"
                   inputProps={{ step: 10000 }}
                 />
@@ -110,10 +110,10 @@ const RoomDetails = props => {
                   label="Bước nhảy"
                   helperText="  "
                   margin="dense"
-                  name="bidJump"
+                  name="bidAmount"
                   onChange={handleChange}
                   type="number"
-                  value={values.bidJump}
+                  value={values.bidAmount}
                   variant="outlined"
                   inputProps={{ step: 10000 }}
                 />

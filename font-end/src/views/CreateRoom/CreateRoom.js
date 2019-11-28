@@ -62,7 +62,7 @@ const CreateRoom = props => {
           .then((response) => {
             if (response.request.status == "201") {
               var auctionId = response.data.auctionId;
-              props.history.push(`/create-product/${` + auctionId +`}`);
+              props.history.push(`/create-product/` + auctionId);
             }
           })
           .catch(error => {

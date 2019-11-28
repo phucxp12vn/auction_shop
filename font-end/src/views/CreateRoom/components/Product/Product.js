@@ -24,11 +24,7 @@ const Product = props => {
 
   const [values, setValues] = useState({
     name: '',
-<<<<<<< Updated upstream
-    auctionId: props.roomDetails.auctionId,
-=======
     auctionId: '',
->>>>>>> Stashed changes
     picture: null,
     brand: '',
     price: '',

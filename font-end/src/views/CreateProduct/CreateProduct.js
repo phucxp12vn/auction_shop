@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
+import { api } from '../../helpers';
+import { withRouter, Switch, Redirect } from 'react-router-dom';
+
 import {
   Card,
   CardHeader,
@@ -21,10 +24,8 @@ const CreateProduct = props => {
   console.log('CreateProduct Props', props);
 
   const auctionInfo = {
-    name: 'thipho'
+    name: ''
   };
-
-  // Gọi API lấy thông tin phòng, gán response cho auctionInfo.
 
   const { className, ...rest } = props;
 
@@ -35,11 +36,19 @@ const CreateProduct = props => {
     auction_id: props.match.params.auctionId,
     // picture: null,
     price: '',
-    descreption: '',
+    description: '',
     brand: ''
   });
 
-  useEffect(() => console.log('product', product), [product]);
+ // Gọi API lấy thông tin phòng, gán response cho auctionInfo.
+    useEffect(() => {
+      api.getAuctionInfo(product.auction_id)
+        .then(res => {
+          auctionInfo['name'] = res.data.result['name'];
+        })
+        .catch(err => {
+        })
+    }, []);
 
   const handleChange = event => {
     console.log('CreateProduct before Change');
@@ -50,18 +59,17 @@ const CreateProduct = props => {
   };
 
   const handleCreateProduct = () => {
-    // Gọi API CreateProduct , tham số "product"
-    // api
-    //   .addProduct(product)
-    //   .then(response => {
-    //     if (response.request.status == '201') {
-    //
-    //     }
-    //   })
-    //   .catch(error => console.log(error));
+    api.addProduct(product)
+          .then((response) => {
+            if (response.request.status == "201") {
+              props.history.push(`/products/`);
+            }
+          })
+          .catch(error => {
+            return <Redirect exact from="/" to="/sign-in" />
+          });
   };
 
-  useEffect(() => console.log('product', product), [product]);
   const onChangeHandler = event => {
     setValues({
       ...product,
@@ -191,11 +199,11 @@ const CreateProduct = props => {
                 fullWidth
                 label="Mô tả"
                 margin="dense"
-                name="descreption"
+                name="description"
                 onChange={handleChange}
                 multiline
                 required
-                value={product.descreption}
+                value={product.description}
                 variant="outlined"
               />
             </Grid>

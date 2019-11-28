@@ -7,6 +7,7 @@ export const loginUrl = API_SERVER + "/login";
 //Url auction api
 export const createAuctionUrl = API_SERVER + "/createAuction";
 export const getAuctionsApproved = API_SERVER + "/getAllAuction";
+export const getAuctionsInfo = API_SERVER + "/getSingleAuction";
 
 //Url product api
 export const addProductUrl = API_SERVER + "/createProduct";

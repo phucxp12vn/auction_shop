@@ -22,7 +22,7 @@ class AuctionController extends Controller
 
         $auction = Auction::create(array_merge($request->all(),
             ['seller' => Auth::id()],
-            ['status' => 1],
+            ['status' => 0],
         ));
 
         return response()->json([

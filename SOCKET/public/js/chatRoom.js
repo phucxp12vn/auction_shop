@@ -1,11 +1,24 @@
 $(document).ready(function() {
     $("#chatRoom").show();
-
+    var userName = $("#userName").val();
+    var userId = $("#userId").val();
+    var auctionId = $("#auctionId").val();
+    var startBid = $("#startBid").val();
+    var bidAmount = $("#bidAmount").val();
+    var timeStart = $("#timeStart").val();
+    var timeEnd = $("#timeEnd").val();
     //Create room
     $("#btnCreate").click(function() {
         var nameRoom = $("#txtRoom").val();
         if (nameRoom) {
-            socket.emit("client-send-RoomName", nameRoom);
+            socket.emit("client-send-RoomName", {
+                auctionId: auctionId,
+                userId: userId,
+                startBid: startBid,
+                bidAmount: bidAmount,
+                timeStart: timeStart,
+                timeEnd: timeEnd,
+            });
             $("#txtRoom").val("");
             $("#listMessagesRoom").html("");
         }
@@ -25,9 +38,13 @@ $(document).ready(function() {
     $("#btnSendMessageRoom").click(function(e) {
         $name = $("#nameRoom").attr("data-name");
         socket.emit("user-chat", {
-            myRoom: $name,
-            currentValue: $("#txtMessageRoom").val(),
-            maxValue: $("#oldValue").val()
+            auctionId: auctionId,
+            userId: userId,
+            startBid: startBid,
+            bidAmount: bidAmount,
+            timeStart: timeStart,
+            timeEnd: timeEnd,
+            currentValue: $("#txtMessageRoom").val()
         })
     });
 
@@ -167,3 +184,7 @@ socket.on("server-send-lstUser-Room", function(data) {
 socket.on("error-value", function() {
     alert("số tiền lỗi");
 });
+socket.on("finish-auction", function(data) {
+    alert("winner is "+data.userId+" value"+data.value+". Congratulation!");
+    socket.emit("leaveAllUser", data);
+})

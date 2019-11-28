@@ -20,55 +20,51 @@ const useStyles = makeStyles(() => ({
 const CreateProduct = props => {
   console.log('CreateProduct Props', props);
 
-  const auctionInfo = () => {
-    // Gửi mã phòng : props.match.params.auctionId
-    // => Response về , return repsonse.
-    return {
-      name:'Thi Pho'
-    }
-  }
+  const auctionInfo = {
+    name: 'thipho'
+  };
+
+  // Gọi API lấy thông tin phòng, gán response cho auctionInfo.
 
   const { className, ...rest } = props;
 
   const classes = useStyles();
 
-  const [values, setValues] = useState({
+  const [product, setValues] = useState({
     name: '',
-    auctionId: props.match.params.auctionId,
-    picture: null,
-    brand: '',
+    auction_id: props.match.params.auctionId,
+    // picture: null,
     price: '',
-    description: '',
-    status: '',
-    createAt: '',
-    updateAt: ''
+    descreption: '',
+    brand: ''
   });
+
+  useEffect(() => console.log('product', product), [product]);
+
   const handleChange = event => {
     console.log('CreateProduct before Change');
     setValues({
-      ...values,
+      ...product,
       [event.target.name]: event.target.value
     });
   };
 
-  useEffect(() => console.log('values', values), [values]);
-  const states = [
-    {
-      value: 'alabama',
-      label: 'Alabama'
-    },
-    {
-      value: 'new-york',
-      label: 'New York'
-    },
-    {
-      value: 'san-francisco',
-      label: 'San Francisco'
-    }
-  ];
+  const handleCreateProduct = () => {
+    // Gọi API CreateProduct , tham số "product"
+    // api
+    //   .addProduct(product)
+    //   .then(response => {
+    //     if (response.request.status == '201') {
+    //
+    //     }
+    //   })
+    //   .catch(error => console.log(error));
+  };
+
+  useEffect(() => console.log('product', product), [product]);
   const onChangeHandler = event => {
     setValues({
-      ...values,
+      ...product,
       picture: event.target.files[0]
     });
   };
@@ -93,14 +89,13 @@ const CreateProduct = props => {
                 margin="dense"
                 disabled
                 name="roomName"
-                // onChange={handleChange}
                 required
-                // value={props.roomDetails.roomName}
+                value={auctionInfo.name}
                 variant="outlined"
               />
             </Grid>
             <Grid item md={6} xs={12}>
-              <TextField
+              {/* <TextField
                 fullWidth
                 helperText="  "
                 label="Mô tả phòng"
@@ -111,7 +106,7 @@ const CreateProduct = props => {
                 required
                 // value={props.roomDetails.desc}
                 variant="outlined"
-              />
+              /> */}
             </Grid>
           </Grid>
         </CardContent>
@@ -126,11 +121,11 @@ const CreateProduct = props => {
                 name="name"
                 onChange={handleChange}
                 required
-                // value={values.name}s
+                // value={product.name}
                 variant="outlined"
               />
             </Grid>
-            <Grid item md={6} xs={12}>
+            {/* <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
                 label="Hình ảnh"
@@ -138,7 +133,7 @@ const CreateProduct = props => {
                 name="image"
                 onChange={handleChange}
                 required
-                value={values.picture === null ? '' : values.picture.name}
+                value={product.picture === null ? '' : product.picture.name}
                 variant="outlined"
                 // inputProps={{ type: 'file' }}
               />
@@ -165,7 +160,7 @@ const CreateProduct = props => {
                   Tải lên
                 </Button>
               </label>
-            </Grid>
+            </Grid> */}
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
@@ -174,7 +169,7 @@ const CreateProduct = props => {
                 name="brand"
                 onChange={handleChange}
                 required
-                value={values.brand}
+                value={product.brand}
                 variant="outlined"
               />
             </Grid>
@@ -186,7 +181,7 @@ const CreateProduct = props => {
                 name="price"
                 onChange={handleChange}
                 type="number"
-                value={values.price}
+                value={product.price}
                 variant="outlined"
                 inputProps={{ step: 10000 }}
               />
@@ -196,11 +191,11 @@ const CreateProduct = props => {
                 fullWidth
                 label="Mô tả"
                 margin="dense"
-                name="description"
+                name="descreption"
                 onChange={handleChange}
                 multiline
                 required
-                value={values.description}
+                value={product.descreption}
                 variant="outlined"
               />
             </Grid>
@@ -214,8 +209,8 @@ const CreateProduct = props => {
             style={{
               backgroundColor: '#17669c',
               color: '#fff'
-            }}>
-            {/*onClick={() => props.onAddCreateProduct(values)}> */}
+            }}
+            onClick={handleCreateProduct}>
             Thêm
           </Button>
         </CardActions>

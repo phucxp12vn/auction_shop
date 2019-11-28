@@ -43,7 +43,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CreateRoom = props => {
-  console.log('CreateRoom props', props);
   const classes = useStyles();
 
   const [roomState, setRoomState] = useState({
@@ -52,8 +51,8 @@ const CreateRoom = props => {
     desc: '',
     startBid: '',
     bidAmount: 0,
-    timeStart: '2017-05-24T10:30',
-    timeEnd: '2017-05-24T10:30',
+    timeStart: '2017-05-24T10:30:30',
+    timeEnd: '2017-05-24T10:30:30',
     seller: '',
     status: '',
     createAt: '',
@@ -182,6 +181,7 @@ const CreateRoom = props => {
                         label="Bắt đầu"
                         name="timeStart"
                         type="datetime-local"
+                        step={1}
                         value={roomState.timeStart}
                         onChange={handleChange}
                         className={classes.textField}

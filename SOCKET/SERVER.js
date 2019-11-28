@@ -60,16 +60,12 @@ io.on("connection", function (socket) {
         mangUsers[numb].ID = socket.id;
         mangUsers[numb].status = true;
         socket.Username = data;
-        socket.emit("server-send-dki-thanhcong", mangUsers[numb]);
-        io.sockets.emit("server-send-danhsach-Users", mangUsers);
       }
     } else {
       $users = new User(data, socket.id);
       //add array list USER
       mangUsers.push($users);
       socket.Username = data;
-      socket.emit("server-send-dki-thanhcong", $users);
-      io.sockets.emit("server-send-danhsach-Users", mangUsers);
     }
   });
 
@@ -101,16 +97,24 @@ io.on("connection", function (socket) {
       var mangRoom = Object.keys(io.sockets.adapter.rooms);
       var existRoom = false;
       for (let i = 0; i < mangRoom.length; i++) {
-        if (data == mangRoom[i]) {
+        if (data.auctionId == mangRoom[i]) {
           existRoom = true;
           break;
         }
       }
       if (!existRoom) {
-        maxBid[data] = 0;
+        var obj = {
+          currentMaxUser: data.userId,
+          startBid: data.startBid,
+          bidAmount: data.bidAmount,
+          timeStart: data.timeStart,
+          timeEnd: data.timeEnd,
+          currentValue: data.startBid,
+        }
+        maxBid[data.auctionId] = obj;
       }
-      socket.join(data);
-      socket.Room = data;
+      socket.join(data.auctionId);
+      socket.Room = data.auctionId;
       var mang = [];
       for (name in socket.adapter.rooms) {
         var flag = true;
@@ -124,13 +128,11 @@ io.on("connection", function (socket) {
           mang.push(name);
         }
       }
-      io.sockets.emit("server-send-rooms", mang);
-      socket.emit("server-send-room-socket", data);
 
       //list user in Room
       var lstUser = [];
 
-      var sioRoom = io.sockets.adapter.rooms[data];
+      var sioRoom = io.sockets.adapter.rooms[data.auctionId];
       if (sioRoom) {
         Object.keys(sioRoom.sockets).forEach(function (socketId) {
           for (var i = 0; i < mangUsers.length; i++) {
@@ -140,11 +142,11 @@ io.on("connection", function (socket) {
           }
         });
         // send list user in Room
-        io.sockets.in(data).emit("server-send-lstUser-Room", lstUser);
+        io.sockets.in(data.auctionId).emit("server-send-lstUser-Room", lstUser);
         //Send username, nameRoom joined room
-        io.sockets.in(data).emit("server-send-user-join-Room", {
+        io.sockets.in(data.auctionId).emit("server-send-user-join-Room", {
           name: socket.Username,
-          nameRoom: data
+          nameRoom: data.auctionId
         });
       }
     }
@@ -152,9 +154,13 @@ io.on("connection", function (socket) {
 
   //Server send message to client in Room // xu ly dau gia
   socket.on("user-chat", function (data) {
+    var currentValue = parseInt(maxBid[data.myRoom].currentValue);
+    var bidAmount = parseInt(maxBid[data.myRoom].bidAmount);
+    console.log(maxBid[data.myRoom].currentValue);
     if (socket.Username !== undefined) {
-      if (parseInt(data.currentValue) > maxBid[data.myRoom]) {
-        maxBid[data.myRoom] = data.currentValue;
+      if (parseInt(data.currentValue) > (currentValue + bidAmount)){
+        maxBid[data.myRoom].currentValue = data.currentValue;
+        maxBid[data.myRoom].currentMaxUser = data.userId;
         io.sockets.in(data.myRoom).emit("server-chat", {
           un: socket.Username,
           nd: data.currentValue, //gia tri tien hop le tra ve, tien lon nhat

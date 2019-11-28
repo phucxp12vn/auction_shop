@@ -17,16 +17,23 @@
 
     <div id="wrapper">
         <div id="chatALL">
-            <div id="loginForm" style="text-align:center;">
+            <!-- <div id="loginForm" style="text-align:center;">
                 <div>
                     <h3>My Name</h3>
                     <input type="text" id="txtUsername" required/>
                     <input type="button" value="Register" id="btnRegister" />
                 </div>
-            </div>
+            </div> -->
             <input type="hidden" id="oldValue" value="0"/>
             <!--View chat ALl User-->
             <div id="chatForm">
+                <input type="hidden" name="userName" id="userName" value="1">
+                <input type="hidden" name="userId" id="userId" value="1">
+                <input type="hidden" name="auctionId" id="auctionId" value="1">
+                <input type="hidden" name="startBid" id="startBid" value="1">
+                <input type="hidden" name="bidAmount" id="bidAmount" value="1">
+                <input type="hidden" name="timeStart" id="timeStart" value="1">
+                <input type="hidden" name="timeEnd" id="timeEnd" value="1">
                 <div id="left">
                     <div id="boxTitle">List Users</div>
                     <div id="boxContent"></div>

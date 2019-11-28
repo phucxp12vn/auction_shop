@@ -9,6 +9,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import GavelIcon from '@material-ui/icons/Gavel';
+import uuid from 'uuid/v1';
 
 import {
   Card,
@@ -45,17 +46,14 @@ const Product = props => {
 
   const [values, setValues] = useState({
     name: 'Nón Vegeta',
-    picture: {
-      name: '',
-      file: null
-    },
     brand: 'Vegeta Brand',
     currentBid: 100000,
     currentWinner: 'Tam',
+    bidAmount: 10000,
     description: 'Very cooooool',
     country: 'Namec',
-    bidPrice: null,
-    user: null
+    bidPrice: 110000,
+    user: 'thipho'
   });
 
   const handleChange = event => {
@@ -74,36 +72,23 @@ const Product = props => {
   };
 
   const onSubmitBid = () => {
+    var tempBid = values.bidPrice;
+    var tempWinner = values.user;
     setValues({
-      ...values
+      ...values,
+      //tạm thời gán cho currentBid là BidPrice, thay thế cho currentBid của API từ Room truyền qua.
+      currentBid: tempBid,
+      currentWinner: tempWinner
     });
-    // props.onBid(values)
+    props.onBid({
+      id: uuid(),
+      userName: values.user,
+      bidPrice: values.bidPrice,
+      dateTime: '31-12-2019'
+    });
   };
 
   useEffect(() => console.log(values), [values]);
-  const states = [
-    {
-      value: 'alabama',
-      label: 'Alabama'
-    },
-    {
-      value: 'new-york',
-      label: 'New York'
-    },
-    {
-      value: 'san-francisco',
-      label: 'San Francisco'
-    }
-  ];
-  const onChangeHandler = event => {
-    setValues({
-      ...values,
-      picture: {
-        name: event.target.files[0].name,
-        file: event.target.files[0]
-      }
-    });
-  };
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
@@ -157,11 +142,7 @@ const Product = props => {
                     name="bidPrice"
                     onChange={handleChange}
                     type="number"
-                    value={
-                      values.bidPrice === null
-                        ? values.currentBid + 10000
-                        : values.bidPrice
-                    }
+                    value={values.bidPrice}
                     variant="outlined"
                     inputProps={{ step: 10000 }}
                     style={{ marginRight: '20px' }}
@@ -173,7 +154,7 @@ const Product = props => {
               </Card>
             </Grid>
             <Grid item md={8} xs={12}>
-              <Table />
+              <Table bidHistory={props.bidHistory} />
             </Grid>
           </Grid>
         </CardContent>

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import mockData from './data';
+
 import {
   Grid,
   Button,
@@ -22,6 +24,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const rows = mockData;
+
 const Room = () => {
   const classes = useStyles();
 
@@ -34,12 +38,9 @@ const Room = () => {
     timeEnd: '',
     seller: '',
     status: '',
+    bidHistory: rows,
     product: {
       name: 'Nón Vegeta',
-      picture: {
-        name: '',
-        file: null
-      },
       brand: 'Vegeta Brand',
       currentBid: 100000,
       currentWinner: 'Tam',
@@ -49,13 +50,15 @@ const Room = () => {
     }
   });
 
-  // const handleBid = () => {
-  //   socket.emit("user-chat", {
-  //     myRoom: "roomId",
-  //     currentValue: 100,
-  //     maxValue: 0
-  //   })
-  // };
+  const handleBid = bidInfo => {
+    // Tại đây sẽ gọi API và nhận được reposonse là bidHistory. từ đó gán vào bidHistory cũ.
+    let temp = roomState.bidHistory;
+    temp.push(bidInfo);
+    setRoomState({
+      ...roomState,
+      bidHistory: temp
+    });
+  };
 
   useEffect(() => {
     console.log('joining room');
@@ -85,7 +88,7 @@ const Room = () => {
       socket.emit("leaveAllUser", data);
     });
   });
-
+  
   return (
     <div className={classes.root}>
       <Grid container>
@@ -95,7 +98,11 @@ const Room = () => {
         </Grid> */}
         <Grid>
           {/* item lg={8} md={6} xl={8} xs={12} */}
-          <Product roomState={roomState} />
+          <Product
+            roomState={roomState}
+            bidHistory={roomState.bidHistory}
+            onBid={handleBid}
+          />
         </Grid>
       </Grid>
     </div>

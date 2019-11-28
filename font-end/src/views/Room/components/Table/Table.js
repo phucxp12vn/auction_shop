@@ -7,7 +7,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import mockData from './data';
 
 const columns = [
   { id: 'userName', label: 'Người dùng' },
@@ -34,8 +33,6 @@ function createData(userName, bidPrice, dateTime) {
   return { userName, bidPrice, dateTime };
 }
 
-const rows = mockData;
-
 // const rowReverse = rows.reverse();
 
 const useStyles = makeStyles({
@@ -48,7 +45,9 @@ const useStyles = makeStyles({
   }
 });
 
-export default function StickyHeadTable() {
+export default function StickyHeadTable(props) {
+  const rows = props.bidHistory;
+  const fakeRows = rows;
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -81,6 +80,8 @@ export default function StickyHeadTable() {
           </TableHead>
           <TableBody>
             {rows
+              .slice()
+              .reverse()
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(row => {
                 return (

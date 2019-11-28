@@ -11,8 +11,7 @@ server.listen(3011);
 //list User connect to server
 var mangUsers = [];
 var maxBid = {};
-io.on("connection", function (socket) {
-
+io.on("connection", function(socket) {
   function User($username, $id) {
     this.UserName = $username;
     this.ID = $id;
@@ -38,11 +37,11 @@ io.on("connection", function (socket) {
   }
 
   //Create username, send list User to client
-  socket.on("client-send-Username", function (data) {
+  socket.on("client-send-Username", function(data) {
     $flag = true;
     var object = {};
     var numb = -1;
-    mangUsers.forEach(function (item, i) {
+    mangUsers.forEach(function(item, i) {
       if (item.UserName == data) {
         // Exits user
         numb = i;
@@ -73,7 +72,7 @@ io.on("connection", function (socket) {
   });
 
   //remove user in list User
-  socket.on("logout", function () {
+  socket.on("logout", function() {
     for (var i = 0; i < mangUsers.length; i++) {
       if (mangUsers[i].ID === socket.id) {
         mangUsers[i].status = false;
@@ -84,7 +83,7 @@ io.on("connection", function (socket) {
   });
 
   //send username and message to client
-  socket.on("user-send-message", function (data) {
+  socket.on("user-send-message", function(data) {
     if (socket.Username !== undefined) {
       io.sockets.emit("server-send-mesage", {
         un: socket.Username,
@@ -95,7 +94,7 @@ io.on("connection", function (socket) {
 
   // ------ CHAT ROOM ------- //
   // socket.adapter.rooms=>list rooms
-  socket.on("client-send-RoomName", function (data) {
+  socket.on("client-send-RoomName", function(data) {
     if (socket.Username !== undefined) {
       var mangRoom = Object.keys(io.sockets.adapter.rooms);
       var existRoom = false;
@@ -112,8 +111,8 @@ io.on("connection", function (socket) {
           bidAmount: data.bidAmount,
           timeStart: data.timeStart,
           timeEnd: data.timeEnd,
-          currentMaxValue: data.startBid,
-        }
+          currentMaxValue: data.startBid
+        };
         maxBid[data.auctionId] = obj;
       }
       socket.join(data.auctionId);
@@ -138,7 +137,7 @@ io.on("connection", function (socket) {
 
       var sioRoom = io.sockets.adapter.rooms[data.auctionId];
       if (sioRoom) {
-        Object.keys(sioRoom.sockets).forEach(function (socketId) {
+        Object.keys(sioRoom.sockets).forEach(function(socketId) {
           for (var i = 0; i < mangUsers.length; i++) {
             if (mangUsers[i].ID === socketId) {
               lstUser.push(mangUsers[i].UserName);
@@ -157,42 +156,42 @@ io.on("connection", function (socket) {
   });
 
   //Server send message to client in Room // xu ly dau gia
-  socket.on("user-chat", function (data) {
+  socket.on("user-chat", function(data) {
     var currentMaxValue = parseInt(maxBid[data.auctionId].currentMaxValue);
     var bidAmount = parseInt(maxBid[data.auctionId].bidAmount);
     var currentValue = parseInt(data.currentValue);
-    var timeNow = (new Date).getTime();
-    var timeEnd = new Date(maxBid[data.auctionId].timeEnd).getTime();//thoi gian ket thuc lay ben trangchu.ejs input hidden timeEnd
+    var timeNow = new Date().getTime();
+    var timeEnd = new Date(maxBid[data.auctionId].timeEnd).getTime(); //thoi gian ket thuc lay ben trangchu.ejs input hidden timeEnd
     if (socket.Username !== undefined) {
-      if (currentValue > currentMaxValue && currentValue % bidAmount == 0){
-        if(timeNow > timeEnd) {//xem thoi gian hien tai co be hon thoi gian ket thuc k
-          console.log(maxBid[data.auctionId].currentMaxUser);
-          io.sockets.in(data.auctionId).emit("finish-auction", {
-            userId: maxBid[data.auctionId].currentMaxUser,
-            value: maxBid[data.auctionId].currentMaxValue, //max value tra ve va luu db
-            nameRoom: data.auctionId
+      if (timeNow > timeEnd) {
+        //xem thoi gian hien tai co be hon thoi gian ket thuc k
+        console.log(maxBid[data.auctionId].currentMaxUser);
+        io.sockets.in(data.auctionId).emit("finish-auction", {
+          userId: maxBid[data.auctionId].currentMaxUser,
+          value: maxBid[data.auctionId].currentMaxValue, //max value tra ve va luu db
+          nameRoom: data.auctionId
+        });
+        // var url = 'http://127.0.0.1:8000/api/auction/updateWinner/'+data.auctionId; xai cai nay de dynamic
+        var url = "http://127.0.0.1:8000/api/auction/updateWinner/2"; //t dang set cung, xai` cai tren
+        axios({
+          method: "get",
+          url: url,
+          data: {
+            winner: maxBid[data.auctionId].currentMaxUser,
+            last_bid: maxBid[data.auctionId].currentMaxValue,
+            status: 0
+          },
+          responseType: "stream"
+        }).then(function(response) {});
+        var sioRoom = io.sockets.adapter.rooms[data.auctionId];
+        console.log(sioRoom);
+        if (sioRoom) {
+          Object.keys(sioRoom.sockets).forEach(function(socketId) {
+            io.sockets.sockets[socketId].leave(data.auctionId); // leave room
           });
-          // var url = 'http://127.0.0.1:8000/api/auction/updateWinner/'+data.auctionId; xai cai nay de dynamic
-          var url = 'http://127.0.0.1:8000/api/auction/updateWinner/2';//t dang set cung, xai` cai tren
-          axios({
-              method: 'get',
-              url: url,
-              data: {
-                winner: maxBid[data.auctionId].currentMaxUser,
-                last_bid: maxBid[data.auctionId].currentMaxValue,
-                status: 0,
-              },
-              responseType: 'stream'
-            }).then(function (response) {
-            });
-            var sioRoom = io.sockets.adapter.rooms[data.auctionId];
-            console.log(sioRoom);
-            if (sioRoom) {
-              Object.keys(sioRoom.sockets).forEach(function (socketId) {
-                io.sockets.sockets[socketId].leave(data.auctionId); // leave room
-              });
-            }
-        } else {
+        }
+      } else {
+        if (currentValue > currentMaxValue && currentValue % bidAmount == 0) {
           maxBid[data.auctionId].currentMaxValue = data.currentValue;
           maxBid[data.auctionId].currentMaxUser = data.userId;
           io.sockets.in(data.auctionId).emit("server-chat", {
@@ -200,16 +199,15 @@ io.on("connection", function (socket) {
             nd: data.currentValue, //gia tri tien hop le tra ve, tien lon nhat
             nameRoom: data.auctionId
           });
-          
+        } else {
+          socket.emit("error-value");
         }
-      } else {
-        socket.emit("error-value");
       }
     }
   });
 
   // Leave room
-  socket.on("leave-room", function (data) {
+  socket.on("leave-room", function(data) {
     socket.leave(data);
     var lstRooom = [];
     // get list room, except room default of socket
@@ -231,7 +229,7 @@ io.on("connection", function (socket) {
     var lstUser = [];
     var sioRoom = io.sockets.adapter.rooms[data];
     if (sioRoom) {
-      Object.keys(sioRoom.sockets).forEach(function (socketId) {
+      Object.keys(sioRoom.sockets).forEach(function(socketId) {
         for (var i = 0; i < mangUsers.length; i++) {
           if (mangUsers[i].ID === socketId) {
             lstUser.push(mangUsers[i].UserName);
@@ -248,12 +246,12 @@ io.on("connection", function (socket) {
   });
 
   //Send list user in room when user leave room, user hover in room
-  socket.on("send-list-us-Room", function (data) {
+  socket.on("send-list-us-Room", function(data) {
     //list user in Room
     var lstUser = [];
     var sioRoom = io.sockets.adapter.rooms[data];
     if (sioRoom) {
-      Object.keys(sioRoom.sockets).forEach(function (socketId) {
+      Object.keys(sioRoom.sockets).forEach(function(socketId) {
         for (var i = 0; i < mangUsers.length; i++) {
           if (mangUsers[i].ID === socketId) {
             lstUser.push(mangUsers[i].UserName);
@@ -266,7 +264,7 @@ io.on("connection", function (socket) {
   });
 
   //Disconnect
-  socket.on("disconnect", function () {
+  socket.on("disconnect", function() {
     for (var i = 0; i < mangUsers.length; i++) {
       if (mangUsers[i].ID === socket.id) {
         mangUsers[i].status = false;
@@ -278,6 +276,6 @@ io.on("connection", function (socket) {
   });
 });
 
-app.get("/", function (req, res) {
+app.get("/", function(req, res) {
   res.render("trangchu");
 });

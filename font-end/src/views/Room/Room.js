@@ -49,6 +49,7 @@ const Room = () => {
   });
 
   const handleBid = bidInfo => {
+    // Tại đây sẽ gọi API và nhận được reposonse là bidHistory. từ đó gán vào bidHistory cũ.
     let temp = roomState.bidHistory;
     temp.push(bidInfo);
     setRoomState({

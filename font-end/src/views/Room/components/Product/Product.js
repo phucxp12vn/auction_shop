@@ -49,9 +49,10 @@ const Product = props => {
     brand: 'Vegeta Brand',
     currentBid: 100000,
     currentWinner: 'Tam',
+    bidAmount: 10000,
     description: 'Very cooooool',
     country: 'Namec',
-    bidPrice: null,
+    bidPrice: 110000,
     user: 'thipho'
   });
 
@@ -71,8 +72,13 @@ const Product = props => {
   };
 
   const onSubmitBid = () => {
+    var tempBid = values.bidPrice;
+    var tempWinner = values.user;
     setValues({
-      ...values
+      ...values,
+      //tạm thời gán cho currentBid là BidPrice, thay thế cho currentBid của API từ Room truyền qua.
+      currentBid: tempBid,
+      currentWinner: tempWinner
     });
     props.onBid({
       id: uuid(),
@@ -83,20 +89,6 @@ const Product = props => {
   };
 
   useEffect(() => console.log(values), [values]);
-  const states = [
-    {
-      value: 'alabama',
-      label: 'Alabama'
-    },
-    {
-      value: 'new-york',
-      label: 'New York'
-    },
-    {
-      value: 'san-francisco',
-      label: 'San Francisco'
-    }
-  ];
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
@@ -150,11 +142,7 @@ const Product = props => {
                     name="bidPrice"
                     onChange={handleChange}
                     type="number"
-                    value={
-                      values.bidPrice === null
-                        ? values.currentBid + 10000
-                        : values.bidPrice
-                    }
+                    value={values.bidPrice}
                     variant="outlined"
                     inputProps={{ step: 10000 }}
                     style={{ marginRight: '20px' }}

@@ -80,6 +80,8 @@ export default function StickyHeadTable(props) {
           </TableHead>
           <TableBody>
             {rows
+              .slice()
+              .reverse()
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map(row => {
                 return (

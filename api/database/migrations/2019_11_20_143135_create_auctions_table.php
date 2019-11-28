@@ -23,7 +23,7 @@ class CreateAuctionsTable extends Migration
             $table->dateTime('time_end');
             $table->string('seller');
             $table->string('winner')->nullable();
-            $table->smallInteger();
+            $table->smallInteger('status');
             $table->timestampsTz();
         });
     }

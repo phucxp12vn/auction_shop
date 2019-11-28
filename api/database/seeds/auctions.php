@@ -21,7 +21,8 @@ class auctions extends Seeder
             'time_start' => '2019-11-21 19:00:00',
             'time_end' => '2019-11-22 19:00:00',
             'seller' => 'tam gay',
-            'winner' => 'phuc'
+            'winner' => 'phuc',
+            'status' => '1'
         ]);
         
         

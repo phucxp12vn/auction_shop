@@ -19,7 +19,7 @@ class products extends Seeder
             'description' => 'dao tu doi nha Tong',
             'brand' => 'khong ro',
             //'category' => 'dao',
-            'status' => 'dang ban' 
+            'status' => '1' 
         ]);
         
         // DB::table('products')->insert([	 

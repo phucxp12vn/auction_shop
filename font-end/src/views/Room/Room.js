@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
+import mockData from './data';
+
 import {
   Grid,
   Button,
@@ -20,6 +22,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const rows = mockData;
+
 const Room = () => {
   const classes = useStyles();
 
@@ -32,12 +36,9 @@ const Room = () => {
     timeEnd: '',
     seller: '',
     status: '',
+    bidHistory: rows,
     product: {
       name: 'Nón Vegeta',
-      picture: {
-        name: '',
-        file: null
-      },
       brand: 'Vegeta Brand',
       currentBid: 100000,
       currentWinner: 'Tam',
@@ -47,7 +48,14 @@ const Room = () => {
     }
   });
 
-  const handleBid = () => {};
+  const handleBid = bidInfo => {
+    let temp = roomState.bidHistory;
+    temp.push(bidInfo);
+    setRoomState({
+      ...roomState,
+      bidHistory: temp
+    });
+  };
 
   return (
     <div className={classes.root}>
@@ -58,7 +66,11 @@ const Room = () => {
         </Grid> */}
         <Grid>
           {/* item lg={8} md={6} xl={8} xs={12} */}
-          <Product roomState={roomState} />
+          <Product
+            roomState={roomState}
+            bidHistory={roomState.bidHistory}
+            onBid={handleBid}
+          />
         </Grid>
       </Grid>
     </div>

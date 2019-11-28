@@ -34,7 +34,6 @@ const CreateProduct = props => {
   const [product, setValues] = useState({
     name: '',
     auction_id: props.match.params.auctionId,
-    // picture: null,
     price: '',
     description: '',
     brand: ''

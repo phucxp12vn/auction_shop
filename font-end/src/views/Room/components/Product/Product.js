@@ -9,6 +9,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import GavelIcon from '@material-ui/icons/Gavel';
+import uuid from 'uuid/v1';
 
 import {
   Card,
@@ -45,17 +46,13 @@ const Product = props => {
 
   const [values, setValues] = useState({
     name: 'Nón Vegeta',
-    picture: {
-      name: '',
-      file: null
-    },
     brand: 'Vegeta Brand',
     currentBid: 100000,
     currentWinner: 'Tam',
     description: 'Very cooooool',
     country: 'Namec',
     bidPrice: null,
-    user: null
+    user: 'thipho'
   });
 
   const handleChange = event => {
@@ -77,7 +74,12 @@ const Product = props => {
     setValues({
       ...values
     });
-    // props.onBid(values)
+    props.onBid({
+      id: uuid(),
+      userName: values.user,
+      bidPrice: values.bidPrice,
+      dateTime: '31-12-2019'
+    });
   };
 
   useEffect(() => console.log(values), [values]);
@@ -95,15 +97,6 @@ const Product = props => {
       label: 'San Francisco'
     }
   ];
-  const onChangeHandler = event => {
-    setValues({
-      ...values,
-      picture: {
-        name: event.target.files[0].name,
-        file: event.target.files[0]
-      }
-    });
-  };
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
@@ -173,7 +166,7 @@ const Product = props => {
               </Card>
             </Grid>
             <Grid item md={8} xs={12}>
-              <Table />
+              <Table bidHistory={props.bidHistory} />
             </Grid>
           </Grid>
         </CardContent>

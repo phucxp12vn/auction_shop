@@ -60,9 +60,17 @@ const Room = () => {
   useEffect(() => {
     console.log('joining room');
       socket.emit("client-send-Username", "Tran Van Phuc");
-      socket.emit("client-send-RoomName", "roomId");
+      socket.emit("client-send-RoomName", {
+        auctionId: 'roomId',
+        userId: '2',
+        startBid: '10',
+        bidAmount: '10',
+        timeStart: '1',
+        timeEnd: '2019/11/28 12:00:00'
+    });
       socket.emit("user-chat", {
-        myRoom: "roomId",
+        auctionId: "roomId",
+        userId: '2',
         currentValue: 100,
         maxValue: 0
       })
@@ -71,6 +79,10 @@ const Room = () => {
   useEffect(() => {
     socket.on("server-chat", data => {
       alert(data.nd);
+    });
+    socket.on("finish-auction", function(data) {
+      alert("winner is "+data.userId+" value"+data.value+". Congratulation!");
+      socket.emit("leaveAllUser", data);
     });
   });
 

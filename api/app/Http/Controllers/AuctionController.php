@@ -112,5 +112,18 @@ class AuctionController extends Controller
             'message' => 'Successfully approve auction!',
         ], 201);
     }
+    public function updateWinner(Request $request, $id) {
+        $input = $request->all();
+        $auction = Auction::find($id);
+        if (is_null($auction)) {
+            return response()->json([
+                'message' => 'Auction is not exits!',
+            ], 201);
+        }
+        $auction->update($input);
 
+        return response()->json([
+            'message' => 'Successfully update auction!',
+        ], 201);
+    }
 }

@@ -33,7 +33,7 @@ Route::group([
         Route::get('getSingleAuction/{id}', 'AuctionController@getSingleAuction');
         Route::get('getAllAuction', 'AuctionController@getAllAuction');
         Route::get('deleteAuction/{id}', 'AuctionController@deleteAuction');
-
+        
         // Product
         Route::post('createProduct', 'ProductController@createProduct');
         Route::get('updateProduct/{id}', 'ProductController@updateProduct');
@@ -43,4 +43,9 @@ Route::group([
         Route::get('deleteAuction/{id}', 'ProductController@deleteAuction');
 
     });
+});
+Route::group([
+    'prefix' => 'auction'
+], function () {
+    Route::get('updateWinner/{id}', 'AuctionController@updateWinner');
 });

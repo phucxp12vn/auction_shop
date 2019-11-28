@@ -6,13 +6,13 @@ app.set("views", "./views");
 
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
-server.listen(3000);
+server.listen(3011);
 
 //list User connect to server
 var mangUsers = [];
 var maxBid = {};
 io.on("connection", function (socket) {
-  // console.log("Co nguoi ket noi " + socket.id);
+  console.log("Co nguoi ket noi " + socket.id);
 
   function User($username, $id) {
     this.UserName = $username;
@@ -155,6 +155,7 @@ io.on("connection", function (socket) {
     if (socket.Username !== undefined) {
       if (parseInt(data.currentValue) > maxBid[data.myRoom]) {
         maxBid[data.myRoom] = data.currentValue;
+        console.log("user chat:" + data.currentValue);
         io.sockets.in(data.myRoom).emit("server-chat", {
           un: socket.Username,
           nd: data.currentValue, //gia tri tien hop le tra ve, tien lon nhat

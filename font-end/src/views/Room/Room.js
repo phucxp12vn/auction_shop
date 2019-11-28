@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import {
   Grid,
@@ -13,6 +13,8 @@ import {
 } from '@material-ui/core';
 
 import { Product, RoomDetails } from './components';
+const io = require('socket.io-client');
+const socket = io('http://localhost:3011');
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,7 +49,30 @@ const Room = () => {
     }
   });
 
-  const handleBid = () => {};
+  // const handleBid = () => {
+  //   socket.emit("user-chat", {
+  //     myRoom: "roomId",
+  //     currentValue: 100,
+  //     maxValue: 0
+  //   })
+  // };
+
+  useEffect(() => {
+    console.log('joining room');
+      socket.emit("client-send-Username", "Tran Van Phuc");
+      socket.emit("client-send-RoomName", "roomId");
+      socket.emit("user-chat", {
+        myRoom: "roomId",
+        currentValue: 100,
+        maxValue: 0
+      })
+  });
+
+  useEffect(() => {
+    socket.on("server-chat", data => {
+      alert(data.nd);
+    });
+  });
 
   return (
     <div className={classes.root}>

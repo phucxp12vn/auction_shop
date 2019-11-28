@@ -45,22 +45,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const CreateRoom = props => {
-<<<<<<< Updated upstream
-  const classes = useStyles();
-
-  const [roomState, setRoomState] = useState({
-    // auctionId: uuid(),
-    name: '',
-    desc: '',
-    startBid: '',
-    bidAmount: 0,
-    timeStart: '2017-05-24T10:30:30',
-    timeEnd: '2017-05-24T10:30:30',
-    seller: '',
-    status: '',
-    createAt: '',
-    updateAt: ''
-=======
   console.log('CreateRoom props', props);
   const classes = useStyles();
 
@@ -70,7 +54,6 @@ const CreateRoom = props => {
     bidAmount: 0,
     timeStart: '2017-05-24 10:30:00',
     timeEnd: '2017-05-25 10:30:00',
->>>>>>> Stashed changes
   });
 
   const handleSaveRoomDetails = () => {
@@ -148,28 +131,6 @@ const CreateRoom = props => {
                     <Grid item md={6} xs={12}>
                       <TextField
                         fullWidth
-<<<<<<< Updated upstream
-                        helperText="  "
-                        label="Mô tả"
-                        margin="dense"
-                        name="desc"
-                        multiline
-                        onChange={handleChange}
-                        value={roomState.desc}
-                        variant="outlined"
-                      />
-                    </Grid>
-                    <Grid item md={6} xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Giá khởi điểm"
-                        helperText="  "
-                        margin="dense"
-                        name="startBid"
-                        onChange={handleChange}
-                        type="number"
-                        value={roomState.startBid}
-=======
                         label="Giá khởi điểm"
                         helperText="  "
                         margin="dense"
@@ -177,7 +138,6 @@ const CreateRoom = props => {
                         onChange={handleChange}
                         type="number"
                         value={roomState.start_bid}
->>>>>>> Stashed changes
                         variant="outlined"
                         inputProps={{ step: 10000 }}
                       />
@@ -188,17 +148,10 @@ const CreateRoom = props => {
                         label="Bước nhảy"
                         helperText="  "
                         margin="dense"
-<<<<<<< Updated upstream
-                        name="bidJump"
-                        onChange={handleChange}
-                        type="number"
-                        value={roomState.bidJump}
-=======
                         name="bidAmount"
                         onChange={handleChange}
                         type="number"
                         value={roomState.bidAmount}
->>>>>>> Stashed changes
                         variant="outlined"
                         inputProps={{ step: 10000 }}
                       />
@@ -211,10 +164,6 @@ const CreateRoom = props => {
                         label="Bắt đầu"
                         name="timeStart"
                         type="datetime-local"
-<<<<<<< Updated upstream
-                        step={1}
-=======
->>>>>>> Stashed changes
                         value={roomState.timeStart}
                         onChange={handleChange}
                         className={classes.textField}
@@ -256,10 +205,6 @@ const CreateRoom = props => {
               </Button>
             </CardActions>
           </Card>
-<<<<<<< Updated upstream
-          {/* ------------------- Test - End --------------------- */}
-=======
->>>>>>> Stashed changes
         </Grid>
       </Grid>
     </div>

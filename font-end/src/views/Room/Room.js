@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import mockData from './data';
+import { api } from '../../helpers';
 
 import {
   Grid,
@@ -15,6 +16,8 @@ import {
 } from '@material-ui/core';
 
 import { Product, RoomDetails } from './components';
+const io = require('socket.io-client');
+const socket = io('http://localhost:3011');
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,6 +32,7 @@ const Room = () => {
 
   const [roomState, setRoomState] = useState({
     name: 'ten phong',
+    id : '',
     start_bid: 100000,
     bidAmount: 10000,
     last_bid: 0,
@@ -38,26 +42,71 @@ const Room = () => {
     status: '',
     bidHistory: rows,
     product: {
-      name: 'Nón Vegeta',
-      brand: 'Vegeta Brand',
+      name: '',
+      brand: '',
       currentBid: 100000,
       currentWinner: 'Tam',
-      description: 'Very cooooool',
-      country: 'Namec',
+      description: '',
       bidPrice: null
     }
   });
 
   const handleBid = bidInfo => {
     // Tại đây sẽ gọi API và nhận được reposonse là bidHistory. từ đó gán vào bidHistory cũ.
-    let temp = roomState.bidHistory;
-    temp.push(bidInfo);
-    setRoomState({
-      ...roomState,
-      bidHistory: temp
-    });
+    socket.emit("user-chat", {
+      auctionId: "roomId",
+      userId: '2',
+      currentValue: bidInfo['bidPrice']
+    })
+
   };
 
+  // useEffect(() => {
+  //   api.getAuctionInfo(1) //props.match.params.auctionId
+  //     .then(res => {
+  //       var data = res.data.result;
+  //       data['bidHistory'] = [];
+  //       setRoomState(data);
+  //     })
+  //     .catch(err => {
+  //     })
+  // }, []);
+
+
+  useEffect(() => {
+    console.log('joining room');
+      socket.emit("client-send-Username", "Tran Van Phuc");
+      socket.emit("client-send-RoomName", {
+        auctionId: roomState.id,
+        userId: '2',
+        startBid: roomState.start_bid,
+        bidAmount: roomState.bidAmount,
+        timeEnd: roomState.timeEnd
+    });
+  });
+
+  useEffect(() => {
+    socket.on("server-chat", data => {
+      let temp = roomState.bidHistory;
+      temp.push({
+        id: data['nameRoom'],
+        userName : data['un'],
+        bidPrice: data['nd'],
+        dateTime: ""
+      });
+      setRoomState({
+        ...roomState,
+        bidHistory: temp
+      });
+      alert(data.nd);
+    });
+
+    socket.on("finish-auction", function (data) {
+      alert("winner is " + data.userId + " value" + data.value + ". Congratulation!");
+      socket.emit("leaveAllUser", data);
+    });
+  });
+  
   return (
     <div className={classes.root}>
       <Grid container>

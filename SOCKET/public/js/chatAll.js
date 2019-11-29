@@ -41,8 +41,7 @@ $(document).ready(function() {
 // });
 
 //-----SERVER => CLIENT------//
-
-var socket = io("http://localhost:3000");
+var socket = io("http://localhost:3011");
 
 socket.on("server-send-dki-thatbai", function() {
     alert("Lỗi! Username đã tồn tại.");

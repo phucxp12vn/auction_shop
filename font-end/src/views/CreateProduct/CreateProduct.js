@@ -42,13 +42,12 @@ const CreateProduct = props => {
   // Gọi API lấy thông tin phòng, gán response cho auctionInfo.
   useEffect(() => {
     if (auctionInfo.name === '') {
-      auctionInfo.name = 'after useEffect()';
-      // api.getAuctionInfo(product.auction_id)
-      //   .then(res => {
-      //     auctionInfo.name = res.data.result.name;
-      //   })
-      //   .catch(err => {
-      //   })
+      api.getAuctionInfo(product.auction_id)
+        .then(res => {
+          auctionInfo.name = res.data.result.name;
+        })
+        .catch(err => {
+        })
     }
   }, []);
 

@@ -74,6 +74,12 @@ const Routes = () => {
         path="/create-product/:auctionId"
       />
       <RouteWithLayout
+        component={RoomView}
+        exact
+        layout={MainLayout}
+        path="/room/:auctionId"
+      />
+      <RouteWithLayout
         component={CreateRoomView}
         exact
         layout={MainLayout}

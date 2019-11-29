@@ -33,14 +33,20 @@ Route::group([
         Route::get('getSingleAuction/{id}', 'AuctionController@getSingleAuction');
         Route::get('getAllAuction', 'AuctionController@getAllAuction');
         Route::get('deleteAuction/{id}', 'AuctionController@deleteAuction');
-
+        
         // Product
         Route::post('createProduct', 'ProductController@createProduct');
         Route::get('updateProduct/{id}', 'ProductController@updateProduct');
         Route::get('getProduct/{id}', 'ProductController@getProduct');
+        Route::get('getProductBelongToAuction/{id}', 'ProductController@getProductBelongToAuction');
         Route::get('getAllProduct', 'ProductController@getAllProduct');
         Route::get('getAllProductApproved', 'ProductController@getAllProductApproved');
         Route::get('deleteAuction/{id}', 'ProductController@deleteAuction');
 
     });
+});
+Route::group([
+    'prefix' => 'auction'
+], function () {
+    Route::get('updateWinner/{id}', 'AuctionController@updateWinner');
 });

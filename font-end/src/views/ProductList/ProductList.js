@@ -8,6 +8,7 @@ import { ProductsToolbar, ProductCard } from './components';
 import mockData from './data';
 import { api } from '../../helpers';
 
+console.log('mockData',mockData);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,7 +31,7 @@ const ProductList = () => {
   useEffect(() => {
     api.getAuctionsApproved()
       .then(res => {
-        setProducts(res.data.result.data);
+        setProducts(res.data.result);
       })
       .catch(err => {
       }) 

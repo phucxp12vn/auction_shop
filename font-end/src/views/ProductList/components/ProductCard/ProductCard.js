@@ -47,13 +47,15 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '2%'
   }
 }));
+// console.log("image",imgs)
 
 const ProductCard = props => {
   const { className, product, ...rest } = props;
 
   const handleJoinRoom = () => {
-    props.history.push(`/room/${props.product.auctionId}`)
+    props.history.push(`/room/${props.product.id}`)
   }
+// console.log("image",imgs.filter(i => i.id === product.pictuer)[0].src)
 
   const classes = useStyles();
 
@@ -61,10 +63,10 @@ const ProductCard = props => {
     <Card {...rest} className={clsx(classes.root, className)}>
       <CardContent>
         <div className={classes.imageContainer}>
-          <img alt="Product" className={classes.image} src={product.picture} />
+          <img alt="Product" className={classes.image} src={product.pictuer} />
         </div>
         <Typography align="center" gutterBottom variant="h4">
-          {product.name}
+          {product.productName}
         </Typography>
         <Typography
           align="center"
@@ -80,13 +82,13 @@ const ProductCard = props => {
           <Grid className={classes.statsItem} item>
             <AccessTimeIcon className={classes.statsIcon} />
             <Typography display="inline" variant="body2">
-              Cập nhật 2 giờ trước
+              Bắt đầu : {product.timeStart}
             </Typography>
           </Grid>
           <Grid className={classes.statsItem} item>
             <GavelIcon className={classes.statsIcon} />
             <Typography display="inline" variant="body2">
-              {product.totalBids} lần đấu giá
+              Kết thúc : {product.timeEnd}
             </Typography>
           </Grid>
         </Grid>

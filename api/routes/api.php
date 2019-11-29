@@ -33,6 +33,7 @@ Route::group([
         Route::get('getSingleAuction/{id}', 'AuctionController@getSingleAuction');
         Route::get('getAllAuction', 'AuctionController@getAllAuction');
         Route::get('deleteAuction/{id}', 'AuctionController@deleteAuction');
+        Route::get('getProductOfAuction', 'AuctionController@getProductOfAuction');
         
         // Product
         Route::post('createProduct', 'ProductController@createProduct');

@@ -10,4 +10,9 @@ class Product extends Model
         'auction_id', 'name', 'pictuer', 'price', 
         'description', 'brand', 'status'
     ];
+
+    public function auction()
+    {
+        return $this->belongsTo('App\Auction');
+    }
 }

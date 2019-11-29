@@ -10,4 +10,9 @@ class Auction extends Model
         'name', 'start_bid', 'last_bid', 'bidAmount', 
         'timeStart', 'timeEnd', 'seller', 'winner', 'status'
     ];
+
+    public function product()
+    {
+        return $this->hasOne('App\Product');
+    }
 }

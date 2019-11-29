@@ -6,6 +6,7 @@ use App\Auction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use DB;
 
 class AuctionController extends Controller
 {
@@ -124,6 +125,18 @@ class AuctionController extends Controller
 
         return response()->json([
             'message' => 'Successfully update auction!',
+        ], 201);
+    }
+
+    public function getProductOfAuction()
+    {
+        $auction = DB::table('auctions')
+            ->join('products', 'products.auction_id', '=', 'auctions.id')
+            ->select('*', 'products.name as productName', 'auctions.name as auctionName')
+            ->get();
+
+        return response()->json([
+            'result' => $auction,
         ], 201);
     }
 }

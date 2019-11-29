@@ -31,29 +31,43 @@ const CreateProduct = props => {
 
   const classes = useStyles();
 
-  const [product, setValues] = useState({
-    name: '',
-    auction_id: props.match.params.auctionId,
-    price: '',
-    description: '',
-    brand: ''
+  const [product, setProduct] = useState({
+    auctionInfo: {
+      name: ''
+    },
+    state: {
+      name: '',
+      auction_id: props.match.params.auctionId,
+      price: '',
+      description: '',
+      brand: ''
+    }
   });
 
   // Gọi API lấy thông tin phòng, gán response cho auctionInfo.
   useEffect(() => {
-    if (auctionInfo.name === '') {
-      api.getAuctionInfo(product.auction_id)
-        .then(res => {
-          auctionInfo.name = res.data.result.name;
-        })
-        .catch(err => {
-        })
+    console.log('SDASDASDASD', product.auctionInfo);
+
+    if (product.auctionInfo.name === '') {
+      // api.getAuctionInfo(product.auction_id)
+      //   .then(res => {
+      //     auctionInfo.name = res.data.result.name;
+      //   })
+      //   .catch(err => {
+      //   })
+      console.log('INNER');
+      setProduct({
+        ...product,
+        auctionInfo: {
+          name: 'Phuc'
+        }
+      });
     }
-  }, []);
+  });
 
   const handleChange = event => {
     console.log('CreateProduct before Change');
-    setValues({
+    setProduct({
       ...product,
       [event.target.name]: event.target.value
     });
@@ -73,7 +87,7 @@ const CreateProduct = props => {
   };
 
   const onChangeHandler = event => {
-    setValues({
+    setProduct({
       ...product,
       picture: event.target.files[0]
     });
@@ -100,7 +114,7 @@ const CreateProduct = props => {
                 disabled
                 name="roomName"
                 required
-                value={auctionInfo.name}
+                value={product.auctionInfo.name}
                 variant="outlined"
               />
             </Grid>

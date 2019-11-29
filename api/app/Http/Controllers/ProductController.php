@@ -29,7 +29,7 @@ class ProductController extends Controller
      */
     public function getAllProductApproved()
     {
-        $products = Product::where('status', '1')->paginate(5);
+        $products = Product::where('status', '1')->paginate(20);
 
         return response()->json([
             'result' => $products->toArray(),
@@ -53,6 +53,20 @@ class ProductController extends Controller
 
         return response()->json([
             'result' => $product->toArray(),
+        ], 201);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getProductBelongToAuction($id)
+    {
+        $products = Product::where('auction_id', $id)->first();
+
+        return response()->json([
+            'result' => $products->toArray(),
         ], 201);
     }
 

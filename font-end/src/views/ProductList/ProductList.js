@@ -26,16 +26,14 @@ const useStyles = makeStyles(theme => ({
 
 const ProductList = () => {
   const classes = useStyles();
-
   const [products, setProducts] = useState([]);
-
   useEffect(() => {
     api.getAuctionsApproved()
       .then(res => {
         setProducts(res.data.result.data);
       })
       .catch(err => {
-      })
+      }) 
   }, []);
 
   return (

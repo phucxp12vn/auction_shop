@@ -12,4 +12,6 @@ export const getAuctionsInfo = API_SERVER + "/getSingleAuction";
 //Url product api
 export const addProductUrl = API_SERVER + "/createProduct";
 export const getProductInfo = API_SERVER + "/getProduct";
+export const getProductBelongToAuction = API_SERVER + "/getProductBelongToAuction";
+
 

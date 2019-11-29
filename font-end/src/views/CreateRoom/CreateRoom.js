@@ -52,8 +52,8 @@ const CreateRoom = props => {
     name: '',
     start_bid: '',
     bidAmount: 0,
-    timeStart: '2017-05-24 10:30:00',
-    timeEnd: '2017-05-25 10:30:00',
+    timeStart: '2017-05-24T10:30:00',
+    timeEnd: '2017-05-25T10:30:01',
   });
 
   const handleSaveRoomDetails = () => {
@@ -115,7 +115,7 @@ const CreateRoom = props => {
               <div className={classes.details}>
                 <div>
                   <Grid container spacing={3}>
-                    <Grid item md={6} xs={12}>
+                    <Grid item md={12} xs={12}>
                       <TextField
                         fullWidth
                         helperText="  "
@@ -164,7 +164,7 @@ const CreateRoom = props => {
                         label="Bắt đầu"
                         name="timeStart"
                         type="datetime-local"
-                        value={roomState.timeStart}
+                        // value={roomState.timeStart}
                         onChange={handleChange}
                         className={classes.textField}
                         InputLabelProps={{
@@ -182,11 +182,13 @@ const CreateRoom = props => {
                         label="Kết thúc"
                         name="timeEnd"
                         type="datetime-local"
+                        onChange={handleChange}
                         value={roomState.timeEnd}
                         className={classes.textField}
                         InputLabelProps={{
                           shrink: true
                         }}
+                        // step="1"
                         variant="outlined"
                       />
                     </Grid>

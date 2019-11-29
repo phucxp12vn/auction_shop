@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
+import { withRouter} from 'react-router-dom';
+
 import {
   Card,
   CardContent,
@@ -49,6 +51,10 @@ const useStyles = makeStyles(theme => ({
 const ProductCard = props => {
   const { className, product, ...rest } = props;
 
+  const handleJoinRoom = () => {
+    props.history.push(`/room/${props.product.auctionId}`)
+  }
+
   const classes = useStyles();
 
   return (
@@ -95,7 +101,9 @@ const ProductCard = props => {
         <Button
           variant="contained"
           className={classes.button}
-          style={{ backgroundColor: '#4fc34f',color : '#fff' }}>
+          style={{ backgroundColor: '#4fc34f',color : '#fff' }}
+          onClick={handleJoinRoom}
+          >
           Tham gia
         </Button>
       </div>
@@ -108,4 +116,4 @@ ProductCard.propTypes = {
   product: PropTypes.object.isRequired
 };
 
-export default ProductCard;
+export default withRouter(ProductCard);

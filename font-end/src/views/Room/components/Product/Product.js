@@ -10,6 +10,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import NavigationIcon from '@material-ui/icons/Navigation';
 import GavelIcon from '@material-ui/icons/Gavel';
 import uuid from 'uuid/v1';
+import { api } from '../../../../helpers';
 
 import {
   Card,
@@ -45,21 +46,40 @@ const Product = props => {
   const classes = useStyles();
 
   const [values, setValues] = useState({
-    name: 'Nón Vegeta',
-    brand: 'Vegeta Brand',
-    currentBid: 100000,
-    currentWinner: 'Tam',
-    bidAmount: 10000,
-    description: 'Very cooooool',
-    country: 'Namec',
-    bidPrice: 110000,
-    user: 'thipho'
+    // name: 'Nón Vegeta',
+    // brand: 'Vegeta Brand',
+    // currentBid: 100000,
+    // currentWinner: 'Tam',
+    // bidAmount: 10000,
+    // description: 'Very cooooool',
+    // bidPrice: 110000,
+    // user: 'thipho'
+    product:{},
+    userId:'12',
+    currentBid:100000,
+    currentWinner:'Tam',
+    bidAmount:10000,
+    bidPrice:10000,
   });
+
+  useEffect(() => {
+    // Call api take productId belong to this auction
+    api.getProductBelongToAuction(1)
+      .then(res => {
+        var data = res.data.result;
+        setValues({
+          ...values,
+          product:data,
+        });
+      })
+      .catch(err => {
+      });
+  }, []);
 
   const handleChange = event => {
     if (
       event.target.name === 'bidPrice' &&
-      event.target.value <= values.currentBid
+      event.target.value <= values.product.currentBid
     )
       setValues({
         ...values
@@ -72,8 +92,8 @@ const Product = props => {
   };
 
   const onSubmitBid = () => {
-    var tempBid = values.bidPrice;
-    var tempWinner = values.user;
+    var tempBid = values.product.bidPrice;
+    var tempWinner = values.product.user;
     setValues({
       ...values,
       //tạm thời gán cho currentBid là BidPrice, thay thế cho currentBid của API từ Room truyền qua.
@@ -81,8 +101,7 @@ const Product = props => {
       currentWinner: tempWinner
     });
     props.onBid({
-      id: uuid(),
-      userName: values.user,
+      userName: values.userId,
       bidPrice: values.bidPrice,
       dateTime: '31-12-2019'
     });
@@ -112,13 +131,13 @@ const Product = props => {
                 <Typography
                   style={{ marginBottom: '50px', textAlign: 'center' }}
                   variant="h1">
-                  {values.name}
+                  {values.product.name}
                 </Typography>
                 <Typography className={classes.typo} variant="h3">
-                  {values.brand}
+                  {values.product.brand}
                 </Typography>
                 <Typography className={classes.typo} variant="h3">
-                  {values.description}
+                  {values.product.description}
                 </Typography>
                 <Grid container>
                   <Grid item md={6} xs={12} className={classes.gridTypo}>
@@ -144,7 +163,7 @@ const Product = props => {
                     type="number"
                     value={values.bidPrice}
                     variant="outlined"
-                    inputProps={{ step: 10000 }}
+                    inputProps={{ step: values.bidAmount }}
                     style={{ marginRight: '20px' }}
                   />
                   <Fab variant="extended" onClick={onSubmitBid}>

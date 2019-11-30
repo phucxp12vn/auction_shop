@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 import uuid from 'uuid/v1';
 import { withRouter, Switch, Redirect } from 'react-router-dom';
-
+import moment from 'moment';
 import { Product, RoomDetails } from './components';
 import { api } from '../../helpers';
 
@@ -52,8 +52,8 @@ const CreateRoom = props => {
     name: '',
     start_bid: '',
     bidAmount: 0,
-    timeStart: '2017-05-24T10:30:00',
-    timeEnd: '2017-05-25T10:30:01',
+    timeStart: '',
+    timeEnd: '',
   });
 
   const handleSaveRoomDetails = () => {
@@ -83,10 +83,19 @@ const CreateRoom = props => {
   };
 
   const handleChange = event => {
-    setRoomState({
-      ...roomState,
-      [event.target.name]: event.target.value
-    });
+    if (event.target.name === "timeStart" || event.target.name === "timeEnd") {
+      setRoomState({
+        ...roomState,
+        [event.target.name]: moment(event.target.value).format("YYYY-MM-DD HH:mm:ss")
+      });
+    } else {
+      setRoomState({
+        ...roomState,
+        [event.target.name]: event.target.value
+      });
+    }
+
+    
   };
 
   return (
@@ -183,7 +192,7 @@ const CreateRoom = props => {
                         name="timeEnd"
                         type="datetime-local"
                         onChange={handleChange}
-                        value={roomState.timeEnd}
+                        //value={roomState.timeEnd}
                         className={classes.textField}
                         InputLabelProps={{
                           shrink: true

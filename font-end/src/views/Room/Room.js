@@ -16,6 +16,8 @@ import {
 } from '@material-ui/core';
 
 import { Product, RoomDetails } from './components';
+import moment from 'moment';
+import { createAuctionUrl } from 'helpers/constant';
 const io = require('socket.io-client');
 const socket = io('http://localhost:3011');
 
@@ -27,9 +29,9 @@ const useStyles = makeStyles(theme => ({
 
 const rows = mockData;
 
-const Room = () => {
+const Room = props => {
   const classes = useStyles();
-
+  const auctionIdUrl = props.match.params.auctionId;
   const [roomState, setRoomState] = useState({
     name: 'ten phong',
     id : '',
@@ -40,7 +42,7 @@ const Room = () => {
     timeEnd: '',
     seller: '',
     status: '',
-    bidHistory: rows,
+    bidHistory: [],
     product: {
       name: '',
       brand: '',
@@ -51,26 +53,41 @@ const Room = () => {
     }
   });
 
+  const [userState, setUserState] = useState({
+    id : '',
+    email : '',
+    fullName : '',
+  });
+
   const handleBid = bidInfo => {
     // Tại đây sẽ gọi API và nhận được reposonse là bidHistory. từ đó gán vào bidHistory cũ.
     socket.emit("user-chat", {
-      auctionId: "roomId",
-      userId: '2',
+      auctionId: auctionIdUrl,
+      userId: userState.id,
       currentValue: bidInfo['bidPrice']
     })
 
   };
 
-  // useEffect(() => {
-  //   api.getAuctionInfo(1) //props.match.params.auctionId
-  //     .then(res => {
-  //       var data = res.data.result;
-  //       data['bidHistory'] = [];
-  //       setRoomState(data);
-  //     })
-  //     .catch(err => {
-  //     })
-  // }, []);
+  useEffect(() => {
+    api.getAuctionInfo(auctionIdUrl) //props.match.params.auctionId
+      .then(res => {
+        var data = res.data.result;
+        data['bidHistory'] = [];
+        data['id'] = auctionIdUrl;
+        setRoomState(data);
+      })
+      .catch(err => {
+      })
+
+    api.getUser()
+      .then(res => {
+        setUserState(res.data);
+      })
+      .catch(err => {
+      })
+
+  }, []);
 
 
   useEffect(() => {
@@ -78,7 +95,7 @@ const Room = () => {
       socket.emit("client-send-Username", "Tran Van Phuc");
       socket.emit("client-send-RoomName", {
         auctionId: roomState.id,
-        userId: '2',
+        userId: userState.id,
         startBid: roomState.start_bid,
         bidAmount: roomState.bidAmount,
         timeEnd: roomState.timeEnd
@@ -90,9 +107,9 @@ const Room = () => {
       let temp = roomState.bidHistory;
       temp.push({
         id: data['nameRoom'],
-        userName : data['un'],
+        userName: data['un'],
         bidPrice: data['nd'],
-        dateTime: ""
+        dateTime: moment().format("YYYY-MM-DD HH:mm"),
       });
       setRoomState({
         ...roomState,

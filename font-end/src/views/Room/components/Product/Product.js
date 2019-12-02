@@ -11,6 +11,7 @@ import NavigationIcon from '@material-ui/icons/Navigation';
 import GavelIcon from '@material-ui/icons/Gavel';
 import uuid from 'uuid/v1';
 import { api } from '../../../../helpers';
+import moment from 'moment';
 
 import {
   Card,
@@ -64,7 +65,7 @@ const Product = props => {
 
   useEffect(() => {
     // Call api take productId belong to this auction
-    api.getProductBelongToAuction(1)
+    api.getProductBelongToAuction(props.roomState.id)
       .then(res => {
         var data = res.data.result;
         setValues({
@@ -103,7 +104,7 @@ const Product = props => {
     props.onBid({
       userName: values.userId,
       bidPrice: values.bidPrice,
-      dateTime: '31-12-2019'
+      dateTime: moment().format("YYYY-MM-DD HH:mm")
     });
   };
 

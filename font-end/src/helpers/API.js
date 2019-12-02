@@ -128,6 +128,23 @@ class API {
       return error
     }
   }
+
+  async getUser() {
+    try {
+      var token = document.cookie.slice(12);
+      let response = await axios.get(constant.getUser, {
+          headers: {
+              'authorization': "Bearer " + token,
+              'Accept' : 'application/json',
+              'Content-Type': 'application/json'
+          }
+        });
+
+      return response;
+    } catch (error) {
+      return error
+    }
+  }
 }
 
 export default new API();

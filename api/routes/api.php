@@ -25,7 +25,7 @@ Route::group([
 
         // User
         Route::get('logout', 'UserController@logout');
-        Route::get('user', 'UserController@user');
+        Route::get('getUser', 'UserController@getUser');
 
         // Auction
         Route::post('createAuction', 'AuctionController@createAuction');

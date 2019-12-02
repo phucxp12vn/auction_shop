@@ -99,7 +99,7 @@ class UserController extends Controller
      *
      * @return [json] user object
      */
-    public function user(Request $request)
+    public function getUser(Request $request)
     {
         return response()->json($request->user());
     }

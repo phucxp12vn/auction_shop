@@ -20,7 +20,8 @@ class AuctionController extends Controller
             'timeEnd' => 'required|date_format:Y-m-d H:i:s|after:timeStart',
         ]);
 
-        $auction = Auction::create(array_merge($request->all(),
+        $auction = Auction::create(array_merge(
+            $request->all(),
             ['seller' => Auth::id()],
             ['status' => 0],
         ));
@@ -95,7 +96,6 @@ class AuctionController extends Controller
         return response()->json([
             'message' => 'Successfully delete auction!',
         ], 201);
-
     }
 
     public function approveAuction($id)
@@ -113,15 +113,22 @@ class AuctionController extends Controller
             'message' => 'Successfully approve auction!',
         ], 201);
     }
-    public function updateWinner(Request $request, $id) {
+
+    public function updateWinner(Request $request)
+    {
         $input = $request->all();
-        $auction = Auction::find($id);
+
+        $auction = Auction::find($input['auctionId']);
         if (is_null($auction)) {
             return response()->json([
                 'message' => 'Auction is not exits!',
             ], 201);
         }
-        $auction->update($input);
+
+        $auction->last_bid = $input['last_bid'];
+        $auction->winner = $input['winner'];
+        $auction->status = 2;
+        $auction->update();
 
         return response()->json([
             'message' => 'Successfully update auction!',

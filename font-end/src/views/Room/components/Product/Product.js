@@ -106,7 +106,7 @@ const Product = props => {
       currentWinner: tempWinner
     });
     props.onBid({
-      userName: values.userId,
+      userName: '1',
       bidPrice: values.bidPrice,
       dateTime: moment().format("YYYY-MM-DD HH:mm")
     });

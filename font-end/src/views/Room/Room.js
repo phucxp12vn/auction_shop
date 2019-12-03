@@ -97,7 +97,7 @@ const Room = props => {
       socket.emit("client-send-Username", "Tran Van Phuc");
       socket.emit("client-send-RoomName", {
         auctionId: roomState.id,
-        // userId: userState.id,
+        userId: '1',
         startBid: roomState.start_bid,
         bidAmount: roomState.bidAmount,
         timeEnd: roomState.timeEnd

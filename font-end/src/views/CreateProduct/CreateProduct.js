@@ -20,10 +20,6 @@ const useStyles = makeStyles(() => ({
   root: {}
 }));
 
-var auctionInfo = {
-  name: ''
-};
-
 const CreateProduct = props => {
   console.log('CreateProduct Props', props);
 
@@ -32,38 +28,37 @@ const CreateProduct = props => {
   const classes = useStyles();
 
   const [product, setProduct] = useState({
-    auctionInfo: {
-      name: ''
-    },
     state: {
       name: '',
       auction_id: props.match.params.auctionId,
       price: '',
       description: '',
       brand: ''
+    },
+    auctionInfo: {
+      name: ''
     }
   });
 
-  // Gọi API lấy thông tin phòng, gán response cho auctionInfo.
+  // Gọi API lấy thông tin phòng, gán respons cho auctionInfo.
   useEffect(() => {
-    console.log('SDASDASDASD', product.auctionInfo);
+    console.log('SDASDASDASD', product.state.auction_id);
 
     if (product.auctionInfo.name === '') {
-      // api.getAuctionInfo(product.auction_id)
-      //   .then(res => {
-      //     auctionInfo.name = res.data.result.name;
-      //   })
-      //   .catch(err => {
-      //   })
-      console.log('INNER');
-      setProduct({
-        ...product,
-        auctionInfo: {
-          name: 'Phuc'
-        }
-      });
+      api.getAuctionInfo(product.state.auction_id)
+        .then(res => {
+          setProduct({
+            ...product,
+            auctionInfo: {
+              name: res.data.result.name
+            }
+          });
+        })
+        .catch(err => {
+        })
+      
     }
-  });
+  }, []);
 
   const handleChange = event => {
     console.log('CreateProduct before Change');

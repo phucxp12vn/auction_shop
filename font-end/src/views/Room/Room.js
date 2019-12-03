@@ -50,20 +50,19 @@ const Room = props => {
       currentWinner: 'Tam',
       description: '',
       bidPrice: null
+    },
+    user: {
+      id : '',
+      email : '',
+      fullName : '',
     }
-  });
-
-  const [userState, setUserState] = useState({
-    id : '',
-    email : '',
-    fullName : '',
   });
 
   const handleBid = bidInfo => {
     // Tại đây sẽ gọi API và nhận được reposonse là bidHistory. từ đó gán vào bidHistory cũ.
     socket.emit("user-chat", {
       auctionId: auctionIdUrl,
-      userId: userState.id,
+      userId: roomState.user.id,
       currentValue: bidInfo['bidPrice']
     })
 
@@ -75,17 +74,20 @@ const Room = props => {
         var data = res.data.result;
         data['bidHistory'] = [];
         data['id'] = auctionIdUrl;
-        setRoomState(data);
+        api.getUser()
+          .then(res => {
+            data['user'] = res.data;
+            setRoomState(data);
+            console.log("use effect roomstate", roomState);
+          })
+          .catch(err => {
+          })
+        
       })
       .catch(err => {
       })
 
-    api.getUser()
-      .then(res => {
-        setUserState(res.data);
-      })
-      .catch(err => {
-      })
+
 
   }, []);
 
@@ -95,7 +97,7 @@ const Room = props => {
       socket.emit("client-send-Username", "Tran Van Phuc");
       socket.emit("client-send-RoomName", {
         auctionId: roomState.id,
-        userId: userState.id,
+        // userId: userState.id,
         startBid: roomState.start_bid,
         bidAmount: roomState.bidAmount,
         timeEnd: roomState.timeEnd

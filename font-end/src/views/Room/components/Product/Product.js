@@ -32,6 +32,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Product = props => {
+  console.log("product render", props);
   const { className, ...rest } = props;
 
   const useStyles = makeStyles(theme => ({
@@ -55,27 +56,30 @@ const Product = props => {
     // description: 'Very cooooool',
     // bidPrice: 110000,
     // user: 'thipho'
-    product:{},
-    userId:'12',
-    currentBid:100000,
-    currentWinner:'Tam',
-    bidAmount:10000,
-    bidPrice:10000,
+    product: {},
+    user: props.roomState.user,
+    currentBid: '',
+    currentWinner: 'Tam',
+    bidAmount: 10000,
+    bidPrice: 10000,
   });
 
   useEffect(() => {
     // Call api take productId belong to this auction
+    console.log("useeffect products", props);
     api.getProductBelongToAuction(props.roomState.id)
       .then(res => {
         var data = res.data.result;
         setValues({
           ...values,
-          product:data,
+          product: data,
+          // user: props.roomState.user,
         });
       })
       .catch(err => {
       });
-  }, []);
+
+  }, [props]);
 
   const handleChange = event => {
     if (

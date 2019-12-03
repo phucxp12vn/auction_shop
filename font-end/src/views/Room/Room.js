@@ -34,7 +34,7 @@ const Room = props => {
   const auctionIdUrl = props.match.params.auctionId;
   const [roomState, setRoomState] = useState({
     name: 'ten phong',
-    id : '',
+    id: '',
     start_bid: 100000,
     bidAmount: 10000,
     last_bid: 0,
@@ -52,66 +52,65 @@ const Room = props => {
       bidPrice: null
     },
     user: {
-      id : '',
-      email : '',
-      fullName : '',
+      id: '',
+      email: '',
+      fullName: ''
     }
   });
 
   const handleBid = bidInfo => {
     // Tại đây sẽ gọi API và nhận được reposonse là bidHistory. từ đó gán vào bidHistory cũ.
-    socket.emit("user-chat", {
+    socket.emit('user-chat', {
       auctionId: auctionIdUrl,
       userId: roomState.user.id,
       currentValue: bidInfo['bidPrice']
-    })
-
+    });
   };
 
   useEffect(() => {
-    api.getAuctionInfo(auctionIdUrl) //props.match.params.auctionId
+    console.log('1');
+    api
+      .getAuctionInfo(auctionIdUrl) //props.match.params.auctionId
       .then(res => {
         var data = res.data.result;
         data['bidHistory'] = [];
         data['id'] = auctionIdUrl;
-        api.getUser()
+        api
+          .getUser()
           .then(res => {
             data['user'] = res.data;
             setRoomState(data);
-            console.log("use effect roomstate", roomState);
+            // console.log('use effect roomstate', roomState);
           })
-          .catch(err => {
-          })
-        
+          .catch(err => {});
       })
-      .catch(err => {
-      })
-
-
-
-  }, []);
-
-
-  useEffect(() => {
-    console.log('joining room');
-      socket.emit("client-send-Username", "Tran Van Phuc");
-      socket.emit("client-send-RoomName", {
-        auctionId: roomState.id,
-        userId: '1',
-        startBid: roomState.start_bid,
-        bidAmount: roomState.bidAmount,
-        timeEnd: roomState.timeEnd
+      .catch(err => {});
+    setRoomState({
+      ...roomState,
+      id: auctionIdUrl,
+      user: {
+        id: '12123',
+        email: 'asdasd',
+        fullName: 'asfassfsasfasfd'
+      }
     });
-  });
-
-  useEffect(() => {
-    socket.on("server-chat", data => {
+    // ---------------------222222---------------- -
+    socket.emit('client-send-Username', 'Tran Van Phuc');
+    socket.emit('client-send-RoomName', {
+      auctionId: roomState.id,
+      userId: '1',
+      startBid: roomState.start_bid,
+      bidAmount: roomState.bidAmount,
+      timeEnd: roomState.timeEnd
+    });
+    // -------------------333333---------------------
+    socket.on('server-chat', data => {
       let temp = roomState.bidHistory;
       temp.push({
         id: data['nameRoom'],
         userName: data['un'],
         bidPrice: data['nd'],
-        dateTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+        dateTime: moment().format('YYYY-MM-DD HH:mm:ss')
       });
       setRoomState({
         ...roomState,
@@ -119,12 +118,14 @@ const Room = props => {
       });
     });
 
-    socket.on("finish-auction", function (data) {
-      alert("winner is " + data.userId + " value" + data.value + ". Congratulation!");
-      socket.emit("leaveAllUser", data);
+    socket.on('finish-auction', function(data) {
+      alert(
+        'winner is ' + data.userId + ' value' + data.value + '. Congratulation!'
+      );
+      socket.emit('leaveAllUser', data);
     });
   }, []);
-  
+
   return (
     <div className={classes.root}>
       <Grid container>
@@ -136,6 +137,7 @@ const Room = props => {
           {/* item lg={8} md={6} xl={8} xs={12} */}
           <Product
             roomState={roomState}
+            user={roomState.user}
             bidHistory={roomState.bidHistory}
             onBid={handleBid}
           />

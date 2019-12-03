@@ -32,7 +32,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const Product = props => {
-  console.log("product render", props);
+  console.log('product render', props);
   const { className, ...rest } = props;
 
   const useStyles = makeStyles(theme => ({
@@ -57,29 +57,37 @@ const Product = props => {
     // bidPrice: 110000,
     // user: 'thipho'
     product: {},
-    user: props.roomState.user,
+    user: {},
     currentBid: '',
     currentWinner: 'Tam',
     bidAmount: 10000,
-    bidPrice: 10000,
+    bidPrice: 10000
   });
 
   useEffect(() => {
     // Call api take productId belong to this auction
-    console.log("useeffect products", props);
-    api.getProductBelongToAuction(props.roomState.id)
-      .then(res => {
-        var data = res.data.result;
-        setValues({
-          ...values,
-          product: data,
-          // user: props.roomState.user,
-        });
-      })
-      .catch(err => {
-      });
+    // api
+    //   .getProductBelongToAuction(props.roomState.id)
+    //   .then(res => {
+    //     var data = res.data.result;
+    //     setValues({
+    //       ...values,
+    //       product: data,
+    //       user: props.user
+    //     });
+    //   })
+    //   .catch(err => {});
 
+    // Chỗ này nó sẽ set cho thằng values.user mỗi khi props thay đổi (props.user)
+    setValues({
+      ...values,
+      // product: data,
+      user: props.user
+    });
+    console.log('useeffect products', props);
   }, [props]);
+
+  useEffect(() => console.log('values after change', values), [values]);
 
   const handleChange = event => {
     if (
@@ -108,11 +116,11 @@ const Product = props => {
     props.onBid({
       userName: '1',
       bidPrice: values.bidPrice,
-      dateTime: moment().format("YYYY-MM-DD HH:mm")
+      dateTime: moment().format('YYYY-MM-DD HH:mm')
     });
   };
 
-  useEffect(() => console.log(values), [values]);
+  // useEffect(() => console.log('values newest rendering', values), [values]);
 
   return (
     <Card {...rest} className={clsx(classes.root, className)}>
@@ -154,6 +162,9 @@ const Product = props => {
                   <Grid item md={6} xs={12} className={classes.gridTypo}>
                     <Typography variant="h4">Người thắng hiện tại</Typography>
                     <Typography className={classes.typo} variant="h3">
+                      {console.log('values.user.fullName', values)}
+                      {/* Chỗ này là test thử  */}
+                      {/* {values.user.fullName} */}
                       {values.currentWinner}
                     </Typography>
                   </Grid>

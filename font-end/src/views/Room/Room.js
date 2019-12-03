@@ -111,20 +111,19 @@ const Room = props => {
         id: data['nameRoom'],
         userName: data['un'],
         bidPrice: data['nd'],
-        dateTime: moment().format("YYYY-MM-DD HH:mm"),
+        dateTime: moment().format("YYYY-MM-DD HH:mm:ss"),
       });
       setRoomState({
         ...roomState,
         bidHistory: temp
       });
-      alert(data.nd);
     });
 
     socket.on("finish-auction", function (data) {
       alert("winner is " + data.userId + " value" + data.value + ". Congratulation!");
       socket.emit("leaveAllUser", data);
     });
-  });
+  }, []);
   
   return (
     <div className={classes.root}>

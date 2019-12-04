@@ -8,7 +8,7 @@ import { ProductsToolbar, ProductCard } from './components';
 import mockData from './data';
 import { api } from '../../helpers';
 
-console.log('mockData',mockData);
+console.log('mockData', mockData);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,26 +27,26 @@ const useStyles = makeStyles(theme => ({
 
 const ProductList = () => {
   const classes = useStyles();
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState();
   useEffect(() => {
-    api.getAuctionsApproved()
+    api
+      .getAuctionsApproved()
       .then(res => {
         setProducts(res.data.result);
       })
-      .catch(err => {
-      }) 
+      .catch(err => {});
   }, []);
-
   return (
     <div className={classes.root}>
       <ProductsToolbar />
       <div className={classes.content}>
         <Grid container spacing={3}>
-          {products.map(product => (
-            <Grid item key={product.id} lg={4} md={6} xs={12}>
-              <ProductCard product={product} />
-            </Grid>
-          ))}
+          {products &&
+            products.map(product => (
+              <Grid item key={product.id} lg={4} md={6} xs={12}>
+                <ProductCard product={product} />
+              </Grid>
+            ))}
         </Grid>
       </div>
       <div className={classes.pagination}>

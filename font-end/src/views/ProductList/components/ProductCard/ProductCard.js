@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-import { withRouter} from 'react-router-dom';
-
+import { withRouter } from 'react-router-dom';
+import moment from 'moment';
 import {
   Card,
   CardContent,
@@ -51,11 +51,40 @@ const useStyles = makeStyles(theme => ({
 
 const ProductCard = props => {
   const { className, product, ...rest } = props;
+  const timeStart = moment('2019-12-04 16:54:30', 'YYYY-MM-DD HH:mm:ss');
 
+  const [productCard, setProductCard] = useState({
+    status: moment().valueOf() >= timeStart.valueOf() ? 0 : 2
+  });
+
+  const disabled = productCard.status === 2 ? true : false;
+  const buttonStyleDisabled = disabled
+    ? {
+        backgroundColor: '#d6dad8',
+        color: '#949494'
+      }
+    : {
+        backgroundColor: '#4fc34f',
+        color: '#fff'
+      };
+
+  useEffect(() => {
+    console.log('useEffect');
+    if (productCard.status === 2) {
+      const interval = setInterval(() => {
+        if (moment().valueOf() >= timeStart.valueOf()) {
+          console.log('STOP');
+          setProductCard({ status: 0 });
+          clearInterval(interval);
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, []);
   const handleJoinRoom = () => {
-    props.history.push(`/room/${props.product.id}`)
-  }
-// console.log("image",imgs.filter(i => i.id === product.pictuer)[0].src)
+    props.history.push(`/room/${props.product.id}`);
+  };
+  // console.log("image",imgs.filter(i => i.id === product.pictuer)[0].src)
 
   const classes = useStyles();
 
@@ -103,9 +132,9 @@ const ProductCard = props => {
         <Button
           variant="contained"
           className={classes.button}
-          style={{ backgroundColor: '#4fc34f',color : '#fff' }}
+          style={buttonStyleDisabled}
           onClick={handleJoinRoom}
-          >
+          disabled={disabled}>
           Tham gia
         </Button>
       </div>

@@ -69,8 +69,15 @@ const CreateProduct = props => {
   };
 
   const handleCreateProduct = () => {
+    var data = {
+      auction_id : product.state.auction_id,
+      name: product.name,
+      price: product.price,
+      description: product.description
+    };
+
     api
-      .addProduct(product)
+      .addProduct(data)
       .then(response => {
         if (response.request.status == '201') {
           props.history.push(`/products/`);

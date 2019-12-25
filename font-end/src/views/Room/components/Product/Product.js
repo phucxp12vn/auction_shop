@@ -58,32 +58,30 @@ const Product = props => {
     // user: 'thipho'
     product: {},
     user: {},
-    currentBid: '',
-    currentWinner: 'Tam',
+    // currentBid: '',
     bidAmount: 10000,
-    bidPrice: 10000
+    currentBid:100000,
+          currentWinner:props.roomState.currentWinner,
+          bidPrice:100000,
   });
 
   useEffect(() => {
-    // Call api take productId belong to this auction
-    // api
-    //   .getProductBelongToAuction(props.roomState.id)
-    //   .then(res => {
-    //     var data = res.data.result;
-    //     setValues({
-    //       ...values,
-    //       product: data,
-    //       user: props.user
-    //     });
-    //   })
-    //   .catch(err => {});
-
+    //Call api take productId belong to this auction
+    api.getProductBelongToAuction(props.roomState.id)
+      .then(res => {
+        var data = res.data.result;
+        setValues({
+          ...values,
+          product: data,
+          user: props.user,
+          
+          // bidAmount: props.roomState.bidAmount,
+          // bidPrice: props.roomState.start_bid
+        });
+      })
+      .catch(err => {});
     // Chỗ này nó sẽ set cho thằng values.user mỗi khi props thay đổi (props.user)
-    setValues({
-      ...values,
-      // product: data,
-      user: props.user
-    });
+    
     console.log('useeffect products', props);
   }, [props]);
 
@@ -105,7 +103,7 @@ const Product = props => {
   };
 
   const onSubmitBid = () => {
-    var tempBid = values.product.bidPrice;
+    var tempBid = values.bidPrice;
     var tempWinner = values.product.user;
     setValues({
       ...values,
@@ -114,7 +112,8 @@ const Product = props => {
       currentWinner: tempWinner
     });
     props.onBid({
-      userName: '1',
+      userId: values.user.id,
+      userName: values.user.fullName,
       bidPrice: values.bidPrice,
       dateTime: moment().format('YYYY-MM-DD HH:mm')
     });
@@ -152,7 +151,7 @@ const Product = props => {
                 <Typography className={classes.typo} variant="h3">
                   {values.product.description}
                 </Typography>
-                <Grid container>
+                {/* <Grid container>
                   <Grid item md={6} xs={12} className={classes.gridTypo}>
                     <Typography variant="h4">Giá đấu giá hiện tại</Typography>
                     <Typography className={classes.typo} variant="h3">
@@ -163,12 +162,10 @@ const Product = props => {
                     <Typography variant="h4">Người thắng hiện tại</Typography>
                     <Typography className={classes.typo} variant="h3">
                       {console.log('values.user.fullName', values)}
-                      {/* Chỗ này là test thử  */}
-                      {/* {values.user.fullName} */}
                       {values.currentWinner}
                     </Typography>
                   </Grid>
-                </Grid>
+                </Grid> */}
                 <Grid style={{ textAlign: 'center' }}>
                   <TextField
                     // fullWidth

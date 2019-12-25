@@ -9,7 +9,7 @@ export const createAuctionUrl = API_SERVER + "/createAuction";
 export const getAuctionsApproved = API_SERVER + "/getProductOfAuction";
 export const getAuctionsInfo = API_SERVER + "/getSingleAuction";
 
-//Url product api
+//Url product apigetProductBelongToAuction
 export const addProductUrl = API_SERVER + "/createProduct";
 export const getProductInfo = API_SERVER + "/getProduct";
 export const getProductBelongToAuction = API_SERVER + "/getProductBelongToAuction";

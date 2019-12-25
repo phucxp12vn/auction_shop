@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
 import { Button } from '@material-ui/core';
+import { withRouter, Switch, Redirect } from 'react-router-dom';
+
 
 import { SearchInput } from 'components';
 
@@ -33,13 +35,18 @@ const ProductsToolbar = props => {
 
   const classes = useStyles();
 
+  const handleOnAddProduct = ()=> {
+    props.history.push("/create-room");
+  }
+
   return (
     <div {...rest} className={clsx(classes.root, className)}>
       <div className={classes.row}>
         <span className={classes.spacer} />
         <Button className={classes.importButton}>Tải lên</Button>
         <Button className={classes.exportButton}>Trích xuất</Button>
-        <Button color="primary" variant="contained">
+        <Button color="primary" variant="contained"
+        onClick={handleOnAddProduct}>
           Thêm sản phẩm
         </Button>
       </div>
@@ -57,4 +64,4 @@ ProductsToolbar.propTypes = {
   className: PropTypes.string
 };
 
-export default ProductsToolbar;
+export default withRouter(ProductsToolbar);

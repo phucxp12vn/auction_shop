@@ -113,6 +113,7 @@ io.on("connection", function(socket) {
           timeEnd: data.timeEnd,
           currentMaxValue: data.startBid
         };
+        console.log("vao day" + data.timeEnd);
         maxBid[data.auctionId] = obj;
       }
       socket.join(data.auctionId);
@@ -161,7 +162,8 @@ io.on("connection", function(socket) {
     var bidAmount = parseInt(maxBid[data.auctionId].bidAmount);
     var currentValue = parseInt(data.currentValue);
     var timeNow = new Date().getTime();
-    var timeEnd = new Date(maxBid[data.auctionId].timeEnd).getTime(); //thoi gian ket thuc lay ben trangchu.ejs input hidden timeEnd
+    var timeEnd = new Date(maxBid[data.auctionId].timeEnd).getTime(); 
+    console.log("timeEnd" + maxBid[data.auctionId].timeEnd);
     if (socket.Username !== undefined) {
       if (timeNow > timeEnd) {
         //xem thoi gian hien tai co be hon thoi gian ket thuc k
@@ -171,18 +173,21 @@ io.on("connection", function(socket) {
           value: maxBid[data.auctionId].currentMaxValue, //max value tra ve va luu db
           nameRoom: data.auctionId
         });
-        // var url = 'http://127.0.0.1:8000/api/auction/updateWinner/'+data.auctionId; xai cai nay de dynamic
-        var url = "http://127.0.0.1:8000/api/auction/updateWinner/2"; //t dang set cung, xai` cai tren
+        var url = 'http://127.0.0.1:8000/api/user/updateWinner'; //xai cai nay de dynamic
         axios({
-          method: "get",
+          method: "post",
           url: url,
           data: {
+            auctionId: + data.auctionId,
             winner: maxBid[data.auctionId].currentMaxUser,
             last_bid: maxBid[data.auctionId].currentMaxValue,
-            status: 0
+            status: 2
           },
           responseType: "stream"
-        }).then(function(response) {});
+        })
+          .then(function(response) {})
+          .catch(err => {});
+
         var sioRoom = io.sockets.adapter.rooms[data.auctionId];
         console.log(sioRoom);
         if (sioRoom) {
@@ -191,13 +196,14 @@ io.on("connection", function(socket) {
           });
         }
       } else {
-        if (currentValue > currentMaxValue && currentValue % bidAmount == 0) {
+        if (currentValue > currentMaxValue) {
           maxBid[data.auctionId].currentMaxValue = data.currentValue;
           maxBid[data.auctionId].currentMaxUser = data.userId;
           io.sockets.in(data.auctionId).emit("server-chat", {
-            un: socket.Username,
+            un: data.userName,
+            ui: data.userId,
             nd: data.currentValue, //gia tri tien hop le tra ve, tien lon nhat
-            nameRoom: data.auctionId
+            nameRoom: data.auctionId,
           });
         } else {
           socket.emit("error-value");

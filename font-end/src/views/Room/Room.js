@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import mockData from './data';
 import { api } from '../../helpers';
+import { withRouter, Switch, Redirect } from 'react-router-dom';
 
 import {
   Grid,
@@ -43,13 +44,13 @@ const Room = props => {
     seller: '',
     status: '',
     bidHistory: [],
+    currentBid: 100000,
+    currentWinner: 'Tam',
+    bidPrice: null,
     product: {
       name: '',
       brand: '',
-      currentBid: 100000,
-      currentWinner: 'Tam',
       description: '',
-      bidPrice: null
     },
     user: {
       id: '',
@@ -62,21 +63,19 @@ const Room = props => {
     // Tại đây sẽ gọi API và nhận được reposonse là bidHistory. từ đó gán vào bidHistory cũ.
     socket.emit('user-chat', {
       auctionId: auctionIdUrl,
-      userId: roomState.user.id,
+      userId: bidInfo['userId'],
+      userName: bidInfo['userName'],
       currentValue: bidInfo['bidPrice']
     });
   };
 
   useEffect(() => {
-    console.log('1');
-    api
-      .getAuctionInfo(auctionIdUrl) //props.match.params.auctionId
+    api.getAuctionInfo(auctionIdUrl) //props.match.params.auctionId
       .then(res => {
         var data = res.data.result;
         data['bidHistory'] = [];
         data['id'] = auctionIdUrl;
-        api
-          .getUser()
+        api.getUser()
           .then(res => {
             data['user'] = res.data;
             setRoomState(data);
@@ -85,44 +84,60 @@ const Room = props => {
           .catch(err => {});
       })
       .catch(err => {});
+
     setRoomState({
       ...roomState,
       id: auctionIdUrl,
       user: {
-        id: '12123',
-        email: 'asdasd',
-        fullName: 'asfassfsasfasfd'
+        id: 'test',
+        email: 'test',
+        fullName: 'test'
       }
     });
-    // ---------------------222222---------------- -
-    socket.emit('client-send-Username', 'Tran Van Phuc');
-    socket.emit('client-send-RoomName', {
-      auctionId: roomState.id,
-      userId: '1',
-      startBid: roomState.start_bid,
-      bidAmount: roomState.bidAmount,
-      timeEnd: roomState.timeEnd
-    });
-    // -------------------333333---------------------
+
     socket.on('server-chat', data => {
       let temp = roomState.bidHistory;
       temp.push({
         id: data['nameRoom'],
         userName: data['un'],
+        userId: data['ui'],
         bidPrice: data['nd'],
         dateTime: moment().format('YYYY-MM-DD HH:mm:ss')
       });
+
       setRoomState({
         ...roomState,
-        bidHistory: temp
+        bidHistory: temp,
+        // currentWinner:data.un,
+        // currentBid:data.nd,
       });
     });
+  }, []);
 
+  useEffect(() => {
+    // ---------------------222222---------------- -
+    socket.emit('client-send-Username', roomState.user.fullName); //roomState.user.fullName
+    if (roomState.timeEnd != "") {
+      socket.emit('client-send-RoomName', {
+        auctionId: roomState.id,
+        userId: roomState.user.id,
+        startBid: roomState.start_bid,
+        bidAmount: roomState.bidAmount,
+        timeEnd: roomState.timeEnd
+      });
+    }
+    
+    // -------------------333333---------------------
+    
+  }, [roomState]);
+
+  useEffect(() => {
     socket.on('finish-auction', function(data) {
       alert(
         'winner is ' + data.userId + ' value' + data.value + '. Congratulation!'
       );
       socket.emit('leaveAllUser', data);
+      props.history.push('/products');
     });
   }, []);
 
@@ -147,4 +162,4 @@ const Room = props => {
   );
 };
 
-export default Room;
+export default withRouter(Room);

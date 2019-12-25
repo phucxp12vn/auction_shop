@@ -18,6 +18,7 @@ Route::group([
 ], function () {
     Route::post('login', 'UserController@login');
     Route::post('signup', 'UserController@signup');
+    Route::post('updateWinner', 'AuctionController@updateWinner');
   
     Route::group([
       'middleware' => 'auth:api'
@@ -34,7 +35,6 @@ Route::group([
         Route::get('getAllAuction', 'AuctionController@getAllAuction');
         Route::get('deleteAuction/{id}', 'AuctionController@deleteAuction');
         Route::get('getProductOfAuction', 'AuctionController@getProductOfAuction');
-        Route::post('updateWinner', 'AuctionController@updateWinner');
         
         // Product
         Route::post('createProduct', 'ProductController@createProduct');

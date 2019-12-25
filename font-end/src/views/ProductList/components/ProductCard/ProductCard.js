@@ -51,13 +51,16 @@ const useStyles = makeStyles(theme => ({
 
 const ProductCard = props => {
   const { className, product, ...rest } = props;
-  const timeStart = moment('2019-12-04 16:54:30', 'YYYY-MM-DD HH:mm:ss');
+  const timeStart = moment(product.timeStart, 'YYYY-MM-DD HH:mm:ss');
+  const timeEnd = moment(product.timeEnd, 'YYYY-MM-DD HH:mm:ss');
+  var timePriodStartFlag = moment().valueOf() < timeStart.valueOf();
+  var timePriodEndFlag = moment().valueOf() > timeEnd.valueOf();
 
   const [productCard, setProductCard] = useState({
-    status: moment().valueOf() >= timeStart.valueOf() ? 0 : 2
+    status: timeEnd.valueOf()  >= moment().valueOf() >= timeStart.valueOf() ? false : true
   });
 
-  const disabled = productCard.status === 2 ? true : false;
+  const disabled = timePriodStartFlag || timePriodEndFlag || product.auctionStatus === 2  ? true : false;
   const buttonStyleDisabled = disabled
     ? {
         backgroundColor: '#d6dad8',
@@ -82,7 +85,7 @@ const ProductCard = props => {
     }
   }, []);
   const handleJoinRoom = () => {
-    props.history.push(`/room/${props.product.id}`);
+    props.history.push(`/room/${props.product.auction_id}`);
   };
   // console.log("image",imgs.filter(i => i.id === product.pictuer)[0].src)
 

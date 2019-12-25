@@ -139,7 +139,8 @@ class AuctionController extends Controller
     {
         $auction = DB::table('auctions')
             ->join('products', 'products.auction_id', '=', 'auctions.id')
-            ->select('*', 'products.name as productName', 'auctions.name as auctionName')
+            ->select('*', 'products.name as productName', 'auctions.name as auctionName', 'auctions.status as auctionStatus')
+            ->orderBy('auctions.id', 'desc')
             ->get();
 
         return response()->json([
